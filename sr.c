@@ -54,10 +54,36 @@ bool IsCorrupted(struct pkt packet)
 
 /********* Sender (A) variables and functions ************/
 
-static struct pkt buffer[WINDOWSIZE];  /* array for storing packets waiting for ACK */
-static int windowfirst, windowlast;    /* array indexes of the first/last packet awaiting ACK */
-static int windowcount;                /* the number of packets currently awaiting an ACK */
-static int A_nextseqnum;               /* the next sequence number to be used by the sender */
+/* Selective Repeat data structures for sender */
+typedef enum {
+    UNUSED,        /* empty slot in send window */
+    SENT,          /* packet sent, waiting for ACK */
+    ACKED          /* packet acknowledged */
+} packet_status;
+
+static struct pkt send_buffer[WINDOWSIZE];      /* array for storing packets */
+static packet_status send_status[WINDOWSIZE];  /* status of each packet */
+static int send_base;                         /* sequence number of first unACKed packet */
+static int next_seqnum;                      /* next sequence number to use */
+
+/* Helper function to translate sequence number to buffer index */
+static int seq_to_index(int seqnum)
+{
+    return seqnum % WINDOWSIZE;
+}
+
+/* Helper function to check if seqnum is in send window */
+static bool in_send_window(int seqnum)
+{
+    int window_end = (send_base + WINDOWSIZE - 1) % SEQSPACE;
+    
+    if (send_base >= window_end) {
+        return (seqnum >= send_base && seqnum <= window_end);
+    } else {
+        /* window wraps around */
+        return (seqnum >= send_base || seqnum <= window_end);
+    }
+}
 
 /* called from layer 5 (application layer), passed the message to be sent to other side */
 void A_output(struct msg message)
