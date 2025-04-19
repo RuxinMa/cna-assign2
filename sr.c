@@ -22,7 +22,7 @@
 
 #define RTT  16.0       /* round trip time.  MUST BE SET TO 16.0 when submitting assignment */
 #define WINDOWSIZE 6    /* the maximum number of buffered unacked packet */
-#define SEQSPACE 7      /* the min sequence space for GBN must be at least windowsize + 1 */
+#define SEQSPACE 12     /* the min sequence space for GBN must be at least windowsize + 1 */
 #define NOTINUSE (-1)   /* used to fill header fields that are not being used */
 
 /* generic procedure to compute the checksum of a packet.  Used by both sender and receiver  
@@ -63,6 +63,7 @@ typedef enum {
 
 static struct pkt send_buffer[WINDOWSIZE];      /* array for storing packets */
 static packet_status send_status[WINDOWSIZE];  /* status of each packet */
+static double send_time[WINDOWSIZE];          /* time when packet was sent */
 static int send_base;                         /* sequence number of first unACKed packet */
 static int next_seqnum;                      /* next sequence number to use */
 
@@ -90,36 +91,38 @@ void A_output(struct msg message)
 {
   struct pkt sendpkt;
   int i;
+  int index;
+  extern float time;  /* get current time from emulator */
 
-  /* if not blocked waiting on ACK */
-  if ( windowcount < WINDOWSIZE) {
+  /* check if we can send a new packet */
+  if ( in_send_window(next_seqnum)) {
     if (TRACE > 1)
       printf("----A: New message arrives, send window is not full, send new messge to layer3!\n");
 
     /* create packet */
-    sendpkt.seqnum = A_nextseqnum;
+    sendpkt.seqnum = next_seqnum;
     sendpkt.acknum = NOTINUSE;
     for ( i=0; i<20 ; i++ ) 
       sendpkt.payload[i] = message.data[i];
     sendpkt.checksum = ComputeChecksum(sendpkt); 
 
-    /* put packet in window buffer */
-    /* windowlast will always be 0 for alternating bit; but not for GoBackN */
-    windowlast = (windowlast + 1) % WINDOWSIZE; 
-    buffer[windowlast] = sendpkt;
-    windowcount++;
+    /* store packet in send buffer */
+    index = seq_to_index(next_seqnum);
+    send_buffer[index] = sendpkt;
+    send_status[index] = SENT;
+    send_time[index] = time;  /* record when packet was sent */
 
     /* send out packet */
     if (TRACE > 0)
       printf("Sending packet %d to layer 3\n", sendpkt.seqnum);
     tolayer3 (A, sendpkt);
 
-    /* start timer if first packet in window */
-    if (windowcount == 1)
+    /* if no timer is running, start one */
+    if (!has_running_timer())
       starttimer(A,RTT);
 
     /* get next sequence number, wrap back to 0 */
-    A_nextseqnum = (A_nextseqnum + 1) % SEQSPACE;  
+    next_seqnum = (next_seqnum + 1) % SEQSPACE;  
   }
   /* if blocked,  window is full */
   else {
