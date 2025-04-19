@@ -86,6 +86,18 @@ static bool in_send_window(int seqnum)
     }
 }
 
+/* Helper function to check if any packet needs a timer running */
+static bool has_running_timer(void)
+{
+    int i;
+    for (i = 0; i < WINDOWSIZE; i++) {
+        if (send_status[i] == SENT) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /* called from layer 5 (application layer), passed the message to be sent to other side */
 void A_output(struct msg message)
 {
