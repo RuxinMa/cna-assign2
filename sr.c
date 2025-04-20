@@ -261,6 +261,25 @@ static struct pkt recv_buffer[WINDOWSIZE];      /* buffer for out-of-order packe
 static bool recv_status[WINDOWSIZE];           /* status for each packet in window */
 static int recv_base;                          /* lowest sequence number in window */
 
+/* Helper function to check if seqnum is in receive window */
+static bool in_recv_window(int seqnum)
+{
+    int window_end = (recv_base + WINDOWSIZE - 1) % SEQSPACE;
+    
+    if (recv_base <= window_end) {
+        return (seqnum >= recv_base && seqnum <= window_end);
+    } else {
+        /* window wraps around */
+        return (seqnum >= recv_base || seqnum <= window_end);
+    }
+}
+
+/* Helper function to translate sequence number to buffer index */
+static int recv_seq_to_index(int seqnum)
+{
+    return seqnum % WINDOWSIZE;
+}
+
 /* called from layer 3, when a packet arrives for layer 4 at B*/
 void B_input(struct pkt packet)
 {
@@ -331,7 +350,7 @@ void B_input(struct pkt packet)
       }
     }
   }
-  
+
   /* create packet */
   sendpkt.seqnum = B_nextseqnum;
   B_nextseqnum = (B_nextseqnum + 1) % 2;
