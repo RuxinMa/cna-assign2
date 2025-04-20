@@ -205,19 +205,33 @@ void A_input(struct pkt packet)
 void A_timerinterrupt(void)
 {
   int i;
+  int resent = 0;
+  extern float time;  /* get current time from emulator */
 
   if (TRACE > 0)
     printf("----A: time out,resend packets!\n");
+  
+  /* Resend all unacknowledged packets in window */
+  for(i = 0; i < WINDOWSIZE; i++) {
+    int seqnum = (send_base + i) % SEQSPACE;
+    int index = seq_to_index(seqnum);
+    
+    /* Check if this packet is sent but not yet acknowledged */
+    if (send_status[index] == SENT){
+      if (TRACE > 0)
+        printf ("---A: resending packet %d\n", seqnum);
 
-  for(i=0; i<windowcount; i++) {
+      tolayer3(A, send_buffer[index]);
+      packets_resent++;
+      resent = 1;
 
-    if (TRACE > 0)
-      printf ("---A: resending packet %d\n", (buffer[(windowfirst+i) % WINDOWSIZE]).seqnum);
-
-    tolayer3(A,buffer[(windowfirst+i) % WINDOWSIZE]);
-    packets_resent++;
-    if (i==0) starttimer(A,RTT);
+      /* Update time when packet was sent */
+      send_time[index] = time;
+    }
   }
+
+  /* Restart timer if we resent any packets */
+  if (reset) starttimer(A,RTT);
 }       
 
 
