@@ -180,17 +180,16 @@ void A_input(struct pkt packet)
         }
 
         /* start timer again if there are still more unacked packets in window */
-          stoptimer(A);
-          if (has_running_timer())
-            starttimer(A, RTT);
-          }
-        }
-        else {
-          if (TRACE > 0)
-            printf ("----A: duplicate ACK received, do nothing!\n");
-        }
+        stoptimer(A);
+        if (has_running_timer())
+          starttimer(A, RTT);
       }
       else {
+        if (TRACE > 0)
+          printf ("----A: duplicate ACK received, do nothing!\n");
+      }
+    }
+    else {
       if (TRACE > 0)
         printf("----A: ACK %d outside window, do nothing!\n", packet.acknum);
     }
@@ -231,7 +230,7 @@ void A_timerinterrupt(void)
   }
 
   /* Restart timer if we resent any packets */
-  if (reset) starttimer(A,RTT);
+  if (resent) starttimer(A,RTT);
 }       
 
 
@@ -260,6 +259,7 @@ void A_init(void)
 static struct pkt recv_buffer[WINDOWSIZE];      /* buffer for out-of-order packets */
 static bool recv_status[WINDOWSIZE];           /* status for each packet in window */
 static int recv_base;                          /* lowest sequence number in window */
+static int B_nextseqnum;                       /* sequence number for ACK packets */
 
 /* Helper function to check if seqnum is in receive window */
 static bool in_recv_window(int seqnum)
@@ -338,15 +338,19 @@ void B_input(struct pkt packet)
       if (TRACE > 0)
         printf("----B: packet %d outside window\n", packet.seqnum);
     
-      /* If packet is before our window, it's a duplicate - send ACK */
-      if ((packet.seqnum < recv_base) || 
-        (recv_base > (recv_base + WINDOWSIZE - 1) % SEQSPACE && 
-          packet.seqnum > (recv_base + WINDOWSIZE - 1) % SEQSPACE)) {
+      /* If packet is a duplicate (before our window) */
+      if ((packet.seqnum < recv_base) && 
+          (packet.seqnum > (recv_base - WINDOWSIZE + SEQSPACE) % SEQSPACE)) {
+        /* Send ACK for this packet as it was previously received */
         sendpkt.acknum = packet.seqnum;
+        if (TRACE > 0)
+          printf("----B: duplicate packet, sending ACK %d\n", sendpkt.acknum);
       }
       else {
         /* Otherwise, send ACK for last correctly received packet */
         sendpkt.acknum = (recv_base - 1 + SEQSPACE) % SEQSPACE;
+        if (TRACE > 0)
+          printf("----B: sending ACK for last correctly received packet %d\n", sendpkt.acknum);
       }
     }
   }
@@ -356,7 +360,7 @@ void B_input(struct pkt packet)
   B_nextseqnum = (B_nextseqnum + 1) % 2;
     
   /* we don't have any data to send.  fill payload with 0's */
-  for ( i=0; i<20 ; i++ ) 
+  for (i = 0; i < 20 ; i++) 
     sendpkt.payload[i] = '0';  
 
   /* computer checksum */
