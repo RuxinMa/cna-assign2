@@ -256,9 +256,10 @@ void A_init(void)
 
 /********* Receiver (B)  variables and procedures ************/
 
-static int expectedseqnum; /* the sequence number expected next by the receiver */
-static int B_nextseqnum;   /* the sequence number for the next packets sent by B */
-
+/* Selective Repeat data structures for receiver */
+static struct pkt recv_buffer[WINDOWSIZE];      /* buffer for out-of-order packets */
+static bool recv_status[WINDOWSIZE];           /* status for each packet in window */
+static int recv_base;                          /* lowest sequence number in window */
 
 /* called from layer 3, when a packet arrives for layer 4 at B*/
 void B_input(struct pkt packet)
@@ -266,31 +267,71 @@ void B_input(struct pkt packet)
   struct pkt sendpkt;
   int i;
 
-  /* if not corrupted and received packet is in order */
-  if  ( (!IsCorrupted(packet))  && (packet.seqnum == expectedseqnum) ) {
+  /* Check if packet is corrupted */
+  if  ( IsCorrupted(packet) ) {
     if (TRACE > 0)
-      printf("----B: packet %d is correctly received, send ACK!\n",packet.seqnum);
-    packets_received++;
-
-    /* deliver to receiving application */
-    tolayer5(B, packet.payload);
-
-    /* send an ACK for the received packet */
-    sendpkt.acknum = expectedseqnum;
-
-    /* update state variables */
-    expectedseqnum = (expectedseqnum + 1) % SEQSPACE;        
+      printf("----B: packet %d is corrupted\n",packet.seqnum);
+    
+    /* Send ACK for last correctly received packet */
+    sendpkt.acknum = (recv_base - 1 + SEQSPACE) % SEQSPACE;
   }
   else {
-    /* packet is corrupted or out of order resend last ACK */
     if (TRACE > 0) 
-      printf("----B: packet corrupted or not expected sequence number, resend ACK!\n");
-    if (expectedseqnum == 0)
-      sendpkt.acknum = SEQSPACE - 1;
-    else
-      sendpkt.acknum = expectedseqnum - 1;
-  }
+      printf("----B: packet %d is not corrupted\n", packet.seqnum);
 
+    /* Check if packet is within our receive window */
+    if (in_recv_window(packet.seqnum)) {
+      int index = recv_seq_to_index(packet.seqnum);
+      
+      /* If we haven't received this packet before */
+      if (!recv_status[index]) {
+        /* Store packet in buffer */
+        recv_buffer[index] = packet;
+        recv_status[index] = true;
+        
+        if (TRACE > 0)
+          printf("----B: packet %d accepted and buffered\n", packet.seqnum);
+        
+        /* If this is the packet we're waiting for, deliver it and any consecutive buffered packets */
+        if (packet.seqnum == recv_base) {
+          while (recv_status[recv_seq_to_index(recv_base)]) {
+            /* Deliver packet to layer 5 */
+            index = recv_seq_to_index(recv_base);
+            tolayer5(B, recv_buffer[index].payload);
+            packets_received++;
+            
+            /* Mark buffer slot as empty */
+            recv_status[index] = false;
+            
+            /* Advance receive window */
+            recv_base = (recv_base + 1) % SEQSPACE;
+            
+            if (TRACE > 0)
+              printf("----B: delivered packet to layer 5, window moves to %d\n", recv_base);
+            }
+          }
+        }
+        
+      /* Send ACK for this packet */
+      sendpkt.acknum = packet.seqnum;
+    }
+    else {
+      if (TRACE > 0)
+        printf("----B: packet %d outside window\n", packet.seqnum);
+    
+      /* If packet is before our window, it's a duplicate - send ACK */
+      if ((packet.seqnum < recv_base) || 
+        (recv_base > (recv_base + WINDOWSIZE - 1) % SEQSPACE && 
+          packet.seqnum > (recv_base + WINDOWSIZE - 1) % SEQSPACE)) {
+        sendpkt.acknum = packet.seqnum;
+      }
+      else {
+        /* Otherwise, send ACK for last correctly received packet */
+        sendpkt.acknum = (recv_base - 1 + SEQSPACE) % SEQSPACE;
+      }
+    }
+  }
+  
   /* create packet */
   sendpkt.seqnum = B_nextseqnum;
   B_nextseqnum = (B_nextseqnum + 1) % 2;
@@ -310,8 +351,16 @@ void B_input(struct pkt packet)
 /* entity B routines are called. You can use it to do any initialization */
 void B_init(void)
 {
-  expectedseqnum = 0;
+  int i;
+
+  /* Initialize receiver variables */
+  recv_base = 0;
   B_nextseqnum = 1;
+
+  /* Initialize receiver buffer */
+    for (i = 0; i < WINDOWSIZE; i++) {
+        recv_status[i] = false;
+    }
 }
 
 /******************************************************************************
