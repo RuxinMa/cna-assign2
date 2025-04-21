@@ -24,10 +24,10 @@
 #define WINDOWSIZE 6    /* the maximum number of buffered unacked packet */
 #define SEQSPACE 12     /* the min sequence space for GBN must be at least windowsize + 1 */
 #define NOTINUSE (-1)   /* used to fill header fields that are not being used */
-#define MAX_RETRANSMISSIONS 10  // Maximum number of retransmission attempts before assuming packet was received
+#define MAX_RETRANSMISSIONS 10  /* Maximum number of retransmission attempts before assuming packet was received */ 
 
-// Array to track retransmission counts for each packet in the window
-static int retransmission_count[WINDOWSIZE] = {0};  // Add this to global variables
+/* Array to track retransmission counts for each packet in the window */ 
+static int retransmission_count[WINDOWSIZE] = {0};
 
 /* generic procedure to compute the checksum of a packet.  Used by both sender and receiver  
    the simulator will overwrite part of your packet with 'z's.  It will not overwrite your 
@@ -127,7 +127,7 @@ void A_output(struct msg message)
     index = seq_to_index(next_seqnum);
     send_buffer[index] = sendpkt;
     send_status[index] = SENT;
-    retransmission_count[index] = 0;  // Reset retransmission counter for new packet
+    retransmission_count[index] = 0;  /* Reset retransmission counter for new packet */ 
     send_time[index] = time;  /* record when packet was sent */
 
     /* send out packet */
@@ -172,7 +172,7 @@ void A_input(struct pkt packet)
       if (send_status[index] == SENT) {
         /* Mark packet as acknowledged */
         send_status[index] = ACKED;
-        retransmission_count[index] = 0;  // Reset retransmission counter
+        retransmission_count[index] = 0;  /* Reset retransmission counter */
           
         if (TRACE > 0)
           printf("----A: ACK %d is new, marked as ACKED\n",packet.acknum);
@@ -237,7 +237,7 @@ void A_timerinterrupt(void)
       int index = seq_to_index(seqnum);
 
       if (send_status[index] == SENT) {
-        // Check if we've reached the retransmission limit
+        /*  Check if we've reached the retransmission limit */
         if (retransmission_count[index] < MAX_RETRANSMISSIONS) {
           if (TRACE > 0)
             printf("---A: resending packet %d (retransmission %d)\n", 
@@ -252,7 +252,7 @@ void A_timerinterrupt(void)
         /* Increment retransmission counter */
         retransmission_count[index]++;
       } else {
-          // Max retransmissions reached, mark as ACKED to avoid deadlock
+          /* Max retransmissions reached, mark as ACKED to avoid deadlock */ 
           if (TRACE > 0)
             printf("---A: packet %d reached max retransmissions, marking as ACKED\n", seqnum);
           
