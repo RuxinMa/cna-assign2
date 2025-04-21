@@ -41,7 +41,7 @@ int ComputeChecksum(struct pkt packet)
 
   checksum = packet.seqnum;
   checksum += packet.acknum;
-  for ( i=0; i<20; i++ ) 
+  for (i = 0; i < 20; i++) 
     checksum += (int)(packet.payload[i]);
 
   return checksum;
@@ -119,7 +119,7 @@ void A_output(struct msg message)
     /* create packet */
     sendpkt.seqnum = next_seqnum;
     sendpkt.acknum = NOTINUSE;
-    for ( i=0; i<20 ; i++ ) 
+    for (i = 0; i < 20 ; i++) 
       sendpkt.payload[i] = message.data[i];
     sendpkt.checksum = ComputeChecksum(sendpkt); 
 
@@ -156,13 +156,15 @@ void A_output(struct msg message)
 */
 void A_input(struct pkt packet)
 {
+  int index; /* Move declaration to the beginning */
+
   /* if received ACK is not corrupted */ 
   if (!IsCorrupted(packet)) {
     if (TRACE > 0)
       printf("----A: uncorrupted ACK %d is received\n",packet.acknum);
     total_ACKs_received++;
 
-    int index = seq_to_index(packet.acknum);
+    index = seq_to_index(packet.acknum);
     
     if (in_send_window(packet.acknum) || 
         packet.acknum == ((send_base + WINDOWSIZE - 1) % SEQSPACE) ||
@@ -223,6 +225,8 @@ void A_timerinterrupt(void)
 {
   int i;
   int resent = 0;
+  int seqnum;
+  int index;
   extern float time;  /* get current time from emulator */
 
   if (TRACE > 0)
@@ -230,11 +234,11 @@ void A_timerinterrupt(void)
   
   /* Resend all unacknowledged packets in window */
   for(i = 0; i < WINDOWSIZE; i++) {
-    int seqnum = (send_base + i) % SEQSPACE;
+    seqnum = (send_base + i) % SEQSPACE;
     
     /* Ensure we only resend packets within the current window */
     if (in_send_window(seqnum)){
-      int index = seq_to_index(seqnum);
+      index = seq_to_index(seqnum);
 
       if (send_status[index] == SENT) {
         /*  Check if we've reached the retransmission limit */
@@ -276,7 +280,7 @@ void A_timerinterrupt(void)
   /* Check if we can slide the window after forcing ACKs */
   while (send_status[seq_to_index(send_base)] == ACKED) {
     /* Mark slot as unused and reset retransmission counter */
-    int index = seq_to_index(send_base);
+    index = seq_to_index(send_base);
     send_status[index] = UNUSED;
     retransmission_count[index] = 0;
     
@@ -352,7 +356,8 @@ void B_input(struct pkt packet)
 {
   struct pkt sendpkt;
   int i;
-
+  int index;  
+  
   /* Check if packet is corrupted */
   if  ( IsCorrupted(packet) ) {
     if (TRACE > 0)
@@ -367,7 +372,7 @@ void B_input(struct pkt packet)
 
     /* Check if packet is within our receive window */
     if (in_recv_window(packet.seqnum)) {
-      int index = recv_seq_to_index(packet.seqnum);
+      index = recv_seq_to_index(packet.seqnum);
       
       /* If we haven't received this packet before */
       if (!recv_status[index]) {
