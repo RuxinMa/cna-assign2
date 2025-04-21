@@ -1,0 +1,101 @@
+=== TEST: test1_basic ===
+Number of messages: 5
+Loss probability: 0.0
+Corruption probability: 0.0
+Direction (0=A->B, 1=A<-B, 2=both): 0
+Average message interval: 10.0
+Trace level: 2
+===============================
+
+-----  Stop and Wait Network Simulator Version 1.1 -------- 
+
+Enter the number of messages to simulate: Enter  packet loss probability [enter 0.0 for no loss]:Enter packet corruption probability [0.0 for no corruption]:Enter average time between messages from sender's layer5 [ > 0.0]:Enter TRACE:
+EVENT time: 6.965711,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 0 to layer 3
+
+EVENT time: 12.374607,  type: 2, fromlayer3  entity: 1
+----B: packet 0 is not corrupted
+----B: packet 0 accepted and buffered
+----B: delivered packet to layer 5, window moves to 1
+
+EVENT time: 17.132755,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 0 is received
+----A: ACK 0 is new, marked as ACKED
+----A: Window slides to 1
+          STOP TIMER: stopping timer at 17.132755
+Warning: unable to cancel your timer. It wasn't running.
+
+EVENT time: 19.661861,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 1 to layer 3
+
+EVENT time: 28.642408,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 2 to layer 3
+
+EVENT time: 29.189993,  type: 2, fromlayer3  entity: 1
+----B: packet 1 is not corrupted
+----B: packet 1 accepted and buffered
+----B: delivered packet to layer 5, window moves to 2
+
+EVENT time: 31.887445,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 3 to layer 3
+
+EVENT time: 32.231213,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 4 to layer 3
+
+EVENT time: 37.491924,  type: 2, fromlayer3  entity: 1
+----B: packet 2 is not corrupted
+----B: packet 2 accepted and buffered
+----B: delivered packet to layer 5, window moves to 3
+
+EVENT time: 38.978420,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 1 is received
+----A: ACK 1 is new, marked as ACKED
+----A: Window slides to 2
+          STOP TIMER: stopping timer at 38.978420
+Warning: unable to cancel your timer. It wasn't running.
+          START TIMER: starting timer at 38.978420
+
+EVENT time: 44.445286,  type: 2, fromlayer3  entity: 1
+----B: packet 3 is not corrupted
+----B: packet 3 accepted and buffered
+----B: delivered packet to layer 5, window moves to 4
+
+EVENT time: 48.429356,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 2 is received
+----A: ACK 2 is new, marked as ACKED
+----A: Window slides to 3
+          STOP TIMER: stopping timer at 48.429356
+          START TIMER: starting timer at 48.429356
+
+EVENT time: 49.646187,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 3 is received
+----A: ACK 3 is new, marked as ACKED
+----A: Window slides to 4
+          STOP TIMER: stopping timer at 49.646187
+          START TIMER: starting timer at 49.646187
+
+EVENT time: 50.777023,  type: 2, fromlayer3  entity: 1
+----B: packet 4 is not corrupted
+----B: packet 4 accepted and buffered
+----B: delivered packet to layer 5, window moves to 5
+
+EVENT time: 51.620754,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 53.598228,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 4 is received
+----A: ACK 4 is new, marked as ACKED
+----A: Window slides to 5
+          STOP TIMER: stopping timer at 53.598228
+ Simulator terminated at time 53.598228
+ after attempting to send 5 msgs from layer5
+number of messages dropped due to full window:  0 
+number of valid (not corrupt or duplicate) acknowledgements received at A:  5 
+(note: a single acknowledgement may have acknowledged more than one packet - if cumulative acknowledgements are used)
+number of packet resends by A:  0 
+number of correct packets received at B:  5 
+number of messages delivered to application:  5 
