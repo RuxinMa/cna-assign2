@@ -41,10 +41,10 @@ echo "Starting SR Protocol tests..."
 # Test 1: Basic functionality (no loss, no corruption)
 run_test "test1_basic" 10 0.0 0.0 0 10.0 2
 
-# # Test 2: Packet loss test (30% loss)
-# run_test "test2_loss" 10 0.3 0.0 0 10.0 2
+# Test 2: Packet loss test (30% loss)
+run_test "test2_loss" 10 0.3 0.0 0 10.0 2
 
-# # Test 3: Packet corruption test (30% corruption)
-# run_test "test3_corruption" 10 0.0 0.3 0 10.0 2
+# Test 3: Packet corruption test (30% corruption)
+run_test "test3_corruption" 10 0.0 0.3 0 10.0 2
 
 echo "All tests completed! Results are in the test_results directory."
