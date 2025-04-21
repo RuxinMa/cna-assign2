@@ -4,6 +4,10 @@
 #include "emulator.h"
 #include "sr.h"
 
+/* Rename reference to avoid conflict with system time() function */
+extern float time; 
+float* sim_time = &time;
+
 /* ******************************************************************
    Selective Repeat protocol.  Adapted from J.F.Kurose
    ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: VERSION 1.2  
@@ -109,7 +113,7 @@ void A_output(struct msg message)
   struct pkt sendpkt;
   int i;
   int index;
-  extern float time;  /* get current time from emulator */
+  extern float *sim_time;  /* get current time from emulator */
 
   /* check if we can send a new packet */
   if (in_send_window(next_seqnum)) {
@@ -128,7 +132,7 @@ void A_output(struct msg message)
     send_buffer[index] = sendpkt;
     send_status[index] = SENT;
     retransmission_count[index] = 0;  /* Reset retransmission counter for new packet */ 
-    send_time[index] = time;  /* record when packet was sent */
+    send_time[index] = *sim_time;  /* record when packet was sent */
 
     /* send out packet */
     if (TRACE > 0)
@@ -227,7 +231,7 @@ void A_timerinterrupt(void)
   int resent = 0;
   int seqnum;
   int index;
-  extern float time;  /* get current time from emulator */
+  extern float *sim_time;  /* get current time from emulator */
 
   if (TRACE > 0)
     printf("----A: time out,resend packets!\n");
@@ -252,7 +256,7 @@ void A_timerinterrupt(void)
         resent = 1;
 
         /* Update time when packet was sent */
-        send_time[index] = time;
+        send_time[index] = *sim_time;
         /* Increment retransmission counter */
         retransmission_count[index]++;
       } else {
