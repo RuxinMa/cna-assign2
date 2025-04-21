@@ -157,10 +157,10 @@ void A_input(struct pkt packet)
       printf("----A: uncorrupted ACK %d is received\n",packet.acknum);
     total_ACKs_received++;
 
+    int index = seq_to_index(packet.acknum);
+
     /* Check if ACK is within our window */
     if (in_send_window(packet.acknum)) {
-      int index = seq_to_index(packet.acknum);
-
       /* Check if this packet hasn't been ACKed yet */
       if (send_status[index] == SENT) {
         /* Mark packet as acknowledged */
@@ -190,6 +190,13 @@ void A_input(struct pkt packet)
           printf ("----A: duplicate ACK received, do nothing!\n");
       }
     }
+    /* Handle duplicate ACKs (ACKs before the window) */
+    else if ((packet.acknum < send_base) && 
+            ((send_base - packet.acknum) <= WINDOWSIZE)) {
+      if (TRACE > 0)
+        printf("----A: duplicate ACK for packet before window, ignoring\n");
+      /* This is an ACK for a packet already processed, ignore it */
+    } 
     else {
       if (TRACE > 0)
         printf("----A: ACK %d outside window, do nothing!\n", packet.acknum);
@@ -214,24 +221,34 @@ void A_timerinterrupt(void)
   /* Resend all unacknowledged packets in window */
   for(i = 0; i < WINDOWSIZE; i++) {
     int seqnum = (send_base + i) % SEQSPACE;
-    int index = seq_to_index(seqnum);
     
-    /* Check if this packet is sent but not yet acknowledged */
-    if (send_status[index] == SENT){
-      if (TRACE > 0)
+    /* Ensure we only resend packets within the current window */
+    if (in_send_window(seqnum)){
+      int index = seq_to_index(seqnum);
+
+      if (send_status[index] == SENT) {
+        if (TRACE > 0)
         printf ("---A: resending packet %d\n", seqnum);
 
-      tolayer3(A, send_buffer[index]);
-      packets_resent++;
-      resent = 1;
+        tolayer3(A, send_buffer[index]);
+        packets_resent++;
+        resent = 1;
 
-      /* Update time when packet was sent */
-      send_time[index] = time;
+        /* Update time when packet was sent */
+        send_time[index] = time;
+      }
     }
   }
 
-  /* Restart timer if we resent any packets */
-  if (resent) starttimer(A,RTT);
+  /* Reset timer unless there are no packets to resend */
+  if (resent) {
+    starttimer(A,RTT);
+  } else {
+    if (TRACE > 0)
+      printf("----A: No packets in window to resend, window may be empty\n");
+    /* If no packets need to be resent, window may be empty,
+       or all packets already ACKed, no need to restart timer */
+  }
 }       
 
 
@@ -329,9 +346,12 @@ void B_input(struct pkt packet)
             
             if (TRACE > 0)
               printf("----B: delivered packet to layer 5, window moves to %d\n", recv_base);
-            }
           }
         }
+      } else {
+        if (TRACE > 0)
+          printf("----B: duplicate packet %d received, already buffered\n", packet.seqnum);
+      }
         
       /* Send ACK for this packet */
       sendpkt.acknum = packet.seqnum;
@@ -342,7 +362,7 @@ void B_input(struct pkt packet)
     
       /* If packet is a duplicate (before our window) */
       if ((packet.seqnum < recv_base) && 
-          (packet.seqnum > (recv_base - WINDOWSIZE + SEQSPACE) % SEQSPACE)) {
+          ((recv_base - packet.seqnum) <= WINDOWSIZE)){
         /* Send ACK for this packet as it was previously received */
         sendpkt.acknum = packet.seqnum;
         if (TRACE > 0)
