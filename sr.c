@@ -24,6 +24,10 @@
 #define WINDOWSIZE 6    /* the maximum number of buffered unacked packet */
 #define SEQSPACE 12     /* the min sequence space for GBN must be at least windowsize + 1 */
 #define NOTINUSE (-1)   /* used to fill header fields that are not being used */
+#define MAX_RETRANSMISSIONS 10  // Maximum number of retransmission attempts before assuming packet was received
+
+// Array to track retransmission counts for each packet in the window
+static int retransmission_count[WINDOWSIZE] = {0};  // Add this to global variables
 
 /* generic procedure to compute the checksum of a packet.  Used by both sender and receiver  
    the simulator will overwrite part of your packet with 'z's.  It will not overwrite your 
@@ -108,7 +112,7 @@ void A_output(struct msg message)
   extern float time;  /* get current time from emulator */
 
   /* check if we can send a new packet */
-  if ( in_send_window(next_seqnum)) {
+  if (in_send_window(next_seqnum)) {
     if (TRACE > 1)
       printf("----A: New message arrives, send window is not full, send new messge to layer3!\n");
 
@@ -123,6 +127,7 @@ void A_output(struct msg message)
     index = seq_to_index(next_seqnum);
     send_buffer[index] = sendpkt;
     send_status[index] = SENT;
+    retransmission_count[index] = 0;  // Reset retransmission counter for new packet
     send_time[index] = time;  /* record when packet was sent */
 
     /* send out packet */
@@ -158,13 +163,16 @@ void A_input(struct pkt packet)
     total_ACKs_received++;
 
     int index = seq_to_index(packet.acknum);
+    
+    if (in_send_window(packet.acknum) || 
+        packet.acknum == ((send_base + WINDOWSIZE - 1) % SEQSPACE) ||
+        packet.acknum == ((send_base - 1 + SEQSPACE) % SEQSPACE)) {
 
-    /* Check if ACK is within our window */
-    if (in_send_window(packet.acknum)) {
       /* Check if this packet hasn't been ACKed yet */
       if (send_status[index] == SENT) {
         /* Mark packet as acknowledged */
         send_status[index] = ACKED;
+        retransmission_count[index] = 0;  // Reset retransmission counter
           
         if (TRACE > 0)
           printf("----A: ACK %d is new, marked as ACKED\n",packet.acknum);
@@ -191,8 +199,10 @@ void A_input(struct pkt packet)
       }
     }
     /* Handle duplicate ACKs (ACKs before the window) */
-    else if ((packet.acknum < send_base) && 
-            ((send_base - packet.acknum) <= WINDOWSIZE)) {
+    else if  (((packet.acknum < send_base) && 
+              ((send_base - packet.acknum) <= WINDOWSIZE)) || 
+             ((packet.acknum > send_base) && 
+              ((packet.acknum - send_base) > (SEQSPACE - WINDOWSIZE)))) {
       if (TRACE > 0)
         printf("----A: duplicate ACK for packet before window, ignoring\n");
       /* This is an ACK for a packet already processed, ignore it */
@@ -227,8 +237,11 @@ void A_timerinterrupt(void)
       int index = seq_to_index(seqnum);
 
       if (send_status[index] == SENT) {
-        if (TRACE > 0)
-        printf ("---A: resending packet %d\n", seqnum);
+        // Check if we've reached the retransmission limit
+        if (retransmission_count[index] < MAX_RETRANSMISSIONS) {
+          if (TRACE > 0)
+            printf("---A: resending packet %d (retransmission %d)\n", 
+                   seqnum, retransmission_count[index] + 1);
 
         tolayer3(A, send_buffer[index]);
         packets_resent++;
@@ -236,8 +249,41 @@ void A_timerinterrupt(void)
 
         /* Update time when packet was sent */
         send_time[index] = time;
+        /* Increment retransmission counter */
+        retransmission_count[index]++;
+      } else {
+          // Max retransmissions reached, mark as ACKED to avoid deadlock
+          if (TRACE > 0)
+            printf("---A: packet %d reached max retransmissions, marking as ACKED\n", seqnum);
+          
+          send_status[index] = ACKED;
+
+          if (seqnum == send_base) {
+            while (send_status[seq_to_index(send_base)] == ACKED) {
+              /* Mark slot as unused */
+              send_status[seq_to_index(send_base)] = UNUSED;
+              /* Slide window by one */
+              send_base = (send_base + 1) % SEQSPACE;
+              if (TRACE > 0)
+                printf("----A: Window slides to %d\n", send_base);
+            }
+          }
+        }
       }
     }
+  }
+
+  /* Check if we can slide the window after forcing ACKs */
+  while (send_status[seq_to_index(send_base)] == ACKED) {
+    /* Mark slot as unused and reset retransmission counter */
+    int index = seq_to_index(send_base);
+    send_status[index] = UNUSED;
+    retransmission_count[index] = 0;
+    
+    /* Slide window by one */
+    send_base = (send_base + 1) % SEQSPACE;
+    if (TRACE > 0)
+      printf("----A: Window slides to %d\n", send_base);
   }
 
   /* Reset timer unless there are no packets to resend */
@@ -266,6 +312,8 @@ void A_init(void)
     /* Initialize send buffer and status */
     for (i = 0; i < WINDOWSIZE; i++) {
         send_status[i] = UNUSED;
+        /* Initialize retransmission counters */
+        retransmission_count[i] = 0;  
     }
 }
 
@@ -361,8 +409,8 @@ void B_input(struct pkt packet)
         printf("----B: packet %d outside window\n", packet.seqnum);
     
       /* If packet is a duplicate (before our window) */
-      if ((packet.seqnum < recv_base) && 
-          ((recv_base - packet.seqnum) <= WINDOWSIZE)){
+      if (((packet.seqnum < recv_base) && ((recv_base - packet.seqnum) <= WINDOWSIZE)) || 
+          ((packet.seqnum > recv_base) && ((packet.seqnum - recv_base) > (SEQSPACE - WINDOWSIZE)))) {
         /* Send ACK for this packet as it was previously received */
         sendpkt.acknum = packet.seqnum;
         if (TRACE > 0)
