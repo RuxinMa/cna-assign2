@@ -39,6 +39,6 @@ run_test() {
 echo "Starting SR Protocol tests..."
 
 # Test 1: Basic functionality (no loss, no corruption)
-run_test "test1_basic" 5 0.0 0.0 0 10.0 2
+run_test "test1_basic" 10 0.0 0.0 0 10.0 2
 
-
+echo "All tests completed! Results are in the test_results directory."

@@ -78,7 +78,8 @@ static bool in_send_window(int seqnum)
 {
     int window_end = (send_base + WINDOWSIZE - 1) % SEQSPACE;
     
-    if (send_base >= window_end) {
+    if (send_base <= window_end) {
+        /* Normal case: window doesn't wrap around */
         return (seqnum >= send_base && seqnum <= window_end);
     } else {
         /* window wraps around */
@@ -267,6 +268,7 @@ static bool in_recv_window(int seqnum)
     int window_end = (recv_base + WINDOWSIZE - 1) % SEQSPACE;
     
     if (recv_base <= window_end) {
+        /* Normal case: window doesn't wrap around */
         return (seqnum >= recv_base && seqnum <= window_end);
     } else {
         /* window wraps around */
