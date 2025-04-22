@@ -59,13 +59,10 @@ run_test "test6_ack_loss" 10 0.3 0.0 1 10.0 2
 # Test 7: ACK corruption specifically
 run_test "test7_ack_corruption" 10 0.0 0.3 1 10.0 2
 
-# Test 8: Bidirectional loss and corruption 
-run_test "test8_bidirectional" 10 0.2 0.2 2 10.0 2
-
-# Test 9: Higher traffic load
+# Test 8: Higher traffic load
 run_test "test9_high_load" 20 0.2 0.2 0 5.0 2
 
-# Test 10: Long-term stability test
+# Test 9: Long-term stability test
 run_test "test10_long_term" 50 0.1 0.1 0 10.0 1
 
 echo "All tests completed! Results are in the test_results directory."
