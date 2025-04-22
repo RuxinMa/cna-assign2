@@ -138,10 +138,8 @@ void A_output(struct msg message)
     if (TRACE > 0)
       printf("Sending packet %d to layer 3\n", sendpkt.seqnum);
     tolayer3 (A, sendpkt);
-
-    /* if no timer is running, start one */
-    if (!has_running_timer())
-      starttimer(A,RTT);
+    
+    starttimer(A, RTT);
 
     /* get next sequence number, wrap back to 0 */
     next_seqnum = (next_seqnum + 1) % SEQSPACE;  
@@ -322,6 +320,8 @@ void A_init(void)
         send_status[i] = UNUSED;
         /* Initialize retransmission counters */
         retransmission_count[i] = 0;  
+        /* Initialize send times */
+        send_time[i] = 0.0;  
     }
 }
 
