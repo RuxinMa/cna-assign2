@@ -1,0 +1,205 @@
+=== TEST: test8_high_load ===
+Number of messages: 20
+Loss probability: 0.2
+Corruption probability: 0.2
+Direction (0=A->B, 1=A<-B, 2=both): 0
+Average message interval: 5.0
+Trace level: 2
+===============================
+
+-----  Stop and Wait Network Simulator Version 1.1 -------- 
+
+Enter the number of messages to simulate: Enter  packet loss probability [enter 0.0 for no loss]:Enter packet corruption probability [0.0 for no corruption]:If you want loss or corruption to only occur in one direction, choose the direction: 0 A->B, 1 A<-B, 2 A<->B (both directions) :Enter average time between messages from sender's layer5 [ > 0.0]:Enter TRACE:
+EVENT time: 3.482855,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 0 to layer 3
+          START TIMER: starting timer at 3.482855
+
+EVENT time: 8.891751,  type: 2, fromlayer3  entity: 1
+----B: packet 0 is correctly received, send ACK!
+
+EVENT time: 9.830931,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 1 to layer 3
+
+EVENT time: 13.649900,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 0 is received
+----A: ACK 0 is not a duplicate
+          STOP TIMER: stopping timer at 13.649900
+          START TIMER: starting timer at 13.649900
+
+EVENT time: 14.321204,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 2 to layer 3
+
+EVENT time: 15.943723,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 3 to layer 3
+          TOLAYER3: packet being corrupted
+
+EVENT time: 19.359062,  type: 2, fromlayer3  entity: 1
+----B: packet 1 is correctly received, send ACK!
+
+EVENT time: 19.965843,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 4 to layer 3
+
+EVENT time: 19.981070,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 5 to layer 3
+          TOLAYER3: packet being corrupted
+
+EVENT time: 25.528677,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 1 is received
+----A: ACK 1 is not a duplicate
+          STOP TIMER: stopping timer at 25.528677
+          START TIMER: starting timer at 25.528677
+
+EVENT time: 27.660994,  type: 2, fromlayer3  entity: 1
+----B: packet 2 is correctly received, send ACK!
+
+EVENT time: 29.370998,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 6 to layer 3
+
+EVENT time: 29.397551,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 7 to layer 3
+
+EVENT time: 30.482197,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 2 is received
+----A: ACK 2 is not a duplicate
+          STOP TIMER: stopping timer at 30.482197
+          START TIMER: starting timer at 30.482197
+
+EVENT time: 32.847656,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 8 to layer 3
+          TOLAYER3: packet being lost
+
+EVENT time: 36.787617,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+
+EVENT time: 40.056652,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is full
+
+EVENT time: 40.456337,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is full
+
+EVENT time: 44.304832,  type: 2, fromlayer3  entity: 1
+----B: packet 4 is correctly received, send ACK!
+
+EVENT time: 44.605846,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 2 is received
+----A: ACK 2 is not a duplicate
+
+EVENT time: 46.482197,  type: 0, timerinterrupt   entity: 0
+----A: time out,resend packets!
+---A: resending packet 3
+          TOLAYER3: packet being lost
+          START TIMER: starting timer at 46.482197
+
+EVENT time: 47.946312,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is full
+
+EVENT time: 51.912796,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 4 is received
+----A: ACK 4 is not a duplicate
+
+EVENT time: 52.453651,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+
+EVENT time: 57.580322,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is full
+
+EVENT time: 58.747036,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 2 is received
+----A: ACK 2 is not a duplicate
+
+EVENT time: 59.134052,  type: 2, fromlayer3  entity: 1
+----B: packet 6 is correctly received, send ACK!
+
+EVENT time: 61.865917,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is full
+
+EVENT time: 62.221851,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is full
+
+EVENT time: 62.417053,  type: 2, fromlayer3  entity: 1
+----B: packet 7 is correctly received, send ACK!
+
+EVENT time: 62.482197,  type: 0, timerinterrupt   entity: 0
+----A: time out,resend packets!
+---A: resending packet 3
+          START TIMER: starting timer at 62.482197
+
+EVENT time: 62.836914,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 6 is received
+----A: ACK 6 is not a duplicate
+
+EVENT time: 63.991058,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 7 is received
+----A: ACK 7 is not a duplicate
+
+EVENT time: 64.435860,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is full
+
+EVENT time: 66.865204,  type: 2, fromlayer3  entity: 1
+----B: packet 3 is correctly received, send ACK!
+
+EVENT time: 69.092430,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 3 is received
+----A: ACK 3 is not a duplicate
+          STOP TIMER: stopping timer at 69.092430
+          START TIMER: starting timer at 69.092430
+
+EVENT time: 71.310104,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 9 to layer 3
+
+EVENT time: 73.252548,  type: 2, fromlayer3  entity: 1
+----B: packet 9 is correctly received, send ACK!
+
+EVENT time: 74.505402,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 10 to layer 3
+
+EVENT time: 79.126328,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 9 is received
+----A: ACK 9 is not a duplicate
+
+EVENT time: 80.513206,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is full
+
+EVENT time: 82.747025,  type: 2, fromlayer3  entity: 1
+----B: packet 10 is correctly received, send ACK!
+
+EVENT time: 85.092430,  type: 0, timerinterrupt   entity: 0
+----A: time out,resend packets!
+---A: resending packet 5
+          START TIMER: starting timer at 85.092430
+
+EVENT time: 87.116539,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 10 is received
+----A: ACK 10 is not a duplicate
+
+EVENT time: 90.256836,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is full
+
+EVENT time: 94.427216,  type: 2, fromlayer3  entity: 1
+----B: packet 5 is correctly received, send ACK!
+
+EVENT time: 97.379639,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 5 is received
+----A: ACK 5 is not a duplicate
+          STOP TIMER: stopping timer at 97.379639
+
+EVENT time: 98.693947,  type: 1, fromlayer5  entity: 0
+ Simulator terminated at time 98.693947
+ after attempting to send 20 msgs from layer5
+number of messages dropped due to full window:  9 
+number of valid (not corrupt or duplicate) acknowledgements received at A:  11 
+(note: a single acknowledgement may have acknowledged more than one packet - if cumulative acknowledgements are used)
+number of packet resends by A:  3 
+number of correct packets received at B:  8 
+number of messages delivered to application:  8 
