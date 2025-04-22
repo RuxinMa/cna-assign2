@@ -363,15 +363,18 @@ void B_input(struct pkt packet)
   int index;  
   
   /* Check if packet is corrupted */
-  if  ( IsCorrupted(packet) ) {
-    if (TRACE > 0)
+  if (IsCorrupted(packet) ) {
+    if (TRACE == 1)
       printf("----B: packet %d is corrupted\n",packet.seqnum);
+
+    if (TRACE > 1)
+      printf("----B: packet corrupted or not expected sequence number, resend ACK!\n");
     
     /* Send ACK for last correctly received packet */
     sendpkt.acknum = (recv_base - 1 + SEQSPACE) % SEQSPACE;
   }
   else {
-    if (TRACE > 0) 
+    if (TRACE == 1) 
       printf("----B: packet %d is not corrupted\n", packet.seqnum);
 
     /* Check if packet is within our receive window */
@@ -384,11 +387,14 @@ void B_input(struct pkt packet)
         recv_buffer[index] = packet;
         recv_status[index] = true;
         
-        if (TRACE > 0)
+        if (TRACE == 1)
           printf("----B: packet %d accepted and buffered\n", packet.seqnum);
         
         /* If this is the packet we're waiting for, deliver it and any consecutive buffered packets */
         if (packet.seqnum == recv_base) {
+          if (TRACE > 1)
+            printf("----B: packet %d is correctly received, send ACK!\n", packet.seqnum);
+
           while (recv_status[recv_seq_to_index(recv_base)]) {
             /* Deliver packet to layer 5 */
             index = recv_seq_to_index(recv_base);
@@ -401,12 +407,12 @@ void B_input(struct pkt packet)
             /* Advance receive window */
             recv_base = (recv_base + 1) % SEQSPACE;
             
-            if (TRACE > 0)
+            if (TRACE == 1)
               printf("----B: delivered packet to layer 5, window moves to %d\n", recv_base);
           }
         }
       } else {
-        if (TRACE > 0)
+        if (TRACE == 1)
           printf("----B: duplicate packet %d received, already buffered\n", packet.seqnum);
       }
         
@@ -414,21 +420,24 @@ void B_input(struct pkt packet)
       sendpkt.acknum = packet.seqnum;
     }
     else {
-      if (TRACE > 0)
+      if (TRACE == 1)
         printf("----B: packet %d outside window\n", packet.seqnum);
+
+      if (TRACE > 1)
+        printf("----B: packet corrupted or not expected sequence number, resend ACK!\n");
     
       /* If packet is a duplicate (before our window) */
       if (((packet.seqnum < recv_base) && ((recv_base - packet.seqnum) <= WINDOWSIZE)) || 
           ((packet.seqnum > recv_base) && ((packet.seqnum - recv_base) > (SEQSPACE - WINDOWSIZE)))) {
         /* Send ACK for this packet as it was previously received */
         sendpkt.acknum = packet.seqnum;
-        if (TRACE > 0)
+        if (TRACE == 1)
           printf("----B: duplicate packet, sending ACK %d\n", sendpkt.acknum);
       }
       else {
         /* Otherwise, send ACK for last correctly received packet */
         sendpkt.acknum = (recv_base - 1 + SEQSPACE) % SEQSPACE;
-        if (TRACE > 0)
+        if (TRACE == 1)
           printf("----B: sending ACK for last correctly received packet %d\n", sendpkt.acknum);
       }
     }
