@@ -47,4 +47,16 @@ run_test "test2_loss" 10 0.3 0.0 0 10.0 2
 # Test 3: Packet corruption test (30% corruption)
 run_test "test3_corruption" 10 0.0 0.3 0 10.0 2
 
+# Test 4: Higher corruption rate to better test corruption handling
+run_test "test4_high_corruption" 10 0.0 0.5 0 10.0 2
+
+# Test 5: Combined loss and corruption
+run_test "test5_loss_and_corruption" 10 0.2 0.2 0 10.0 2
+
+# Test 6: ACK loss specifically (corruption in A<-B direction)
+run_test "test6_ack_loss" 10 0.3 0.0 1 10.0 2
+
+# Test 7: ACK corruption specifically
+run_test "test7_ack_corruption" 10 0.0 0.3 1 10.0 2
+
 echo "All tests completed! Results are in the test_results directory."
