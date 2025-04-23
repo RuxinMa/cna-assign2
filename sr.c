@@ -262,6 +262,10 @@ static int B_nextseqnum;                       /* sequence number for ACK packet
 /* Helper function to check if seqnum is in receive window */
 static bool in_recv_window(int seqnum)
 {
+    /* For the receiver, we also need to acknowledge packets right before the window */ 
+    if (seqnum == ((recv_base - 1 + SEQSPACE) % SEQSPACE))
+        return false;
+
     int window_end = (recv_base + WINDOWSIZE - 1) % SEQSPACE;
     
     if (recv_base <= window_end) {
@@ -306,16 +310,20 @@ void B_input(struct pkt packet)
   }
   /* Then check if it's within the receive window */
   else if (!in_recv_window(packet.seqnum)) {
-    if (TRACE > 1)
-      printf("----B: packet not in receive window, resend ACK!\n");
-    
-    /* Handle the case of duplicate packets before the window */
-    if (((recv_base - packet.seqnum) % SEQSPACE) <= WINDOWSIZE){
-      /* This is likely a retransmission of an already received packet */
+    /* This is a packet outside the receive window */
+    /* If it's the packet just before the window, it's a duplicate we've already processed */
+    if (packet.seqnum == ((recv_base - 1 + SEQSPACE) % SEQSPACE)) {
+      if (TRACE > 1)
+        printf("----B: packet %d is correctly received, send ACK!\n", packet.seqnum);
+      
+      /* Send ACK for this packet since it's a duplicate of the last packet we delivered */
       sendpkt.acknum = packet.seqnum;
       last_ack_sent = packet.seqnum;
     } else {
-      /* Otherwise use the last sent ACK */
+       /* For any other packet outside the window, we need to send an ACK for the last packet */
+      if (TRACE > 1)
+        printf("----B: packet %d is correctly received, send ACK!\n", packet.seqnum);
+      
       if (last_ack_sent != -1) {
         sendpkt.acknum = last_ack_sent;
       } else {
