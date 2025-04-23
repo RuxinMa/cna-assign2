@@ -1,5 +1,17 @@
 # Git log 
 
+### commit 3dc636771b4588dfa6aa278b729919ec14fb4beb
+Author: RuxinMa <alisonma0610@gmail.com>
+Date:   Thu Apr 24 01:38:15 2025 +0930
+
+    fix bugs and remove the logic that checks for a maximum number of retransmissions
+
+### commit 38154a87b7fe2eb489b13b75458a8bad3e203aa1
+Author: RuxinMa <alisonma0610@gmail.com>
+Date:   Wed Apr 23 18:58:28 2025 +0930
+
+    fix SR ACK counting  errors and retransmission handling, write updated test cases to verify output from autograder
+
 ### commit ae5aefcc4c18f9029afa816f00f42499a73f4ef9
 Author: RuxinMa <alisonma0610@gmail.com>
 Date:   Wed Apr 23 15:57:34 2025 +0930
