@@ -22,9 +22,9 @@
 
 #define RTT  16.0       /* round trip time.  MUST BE SET TO 16.0 when submitting assignment */
 #define WINDOWSIZE 6    /* the maximum number of buffered unacked packet */
-#define SEQSPACE 12     /* the min sequence space for GBN must be at least windowsize + 1 */
+#define SEQSPACE 12     /* the min sequence space for SR must be at least 2*WINDOWSIZE */
 #define NOTINUSE (-1)   /* used to fill header fields that are not being used */
-#define MAX_RETRANSMISSIONS 10  /* Maximum number of retransmission attempts before assuming packet was received */
+
 
 /* generic procedure to compute the checksum of a packet.  Used by both sender and receiver  
    the simulator will overwrite part of your packet with 'z's.  It will not overwrite your 
@@ -220,42 +220,16 @@ void A_timerinterrupt(void)
   if (send_base != next_seqnum) {
     int index = seq_to_index(send_base);
 
-    /* Check if we've reached the maximum retransmission limit */
-    if (retransmission_count[index] < MAX_RETRANSMISSIONS) {
-      if (TRACE > 0)
-        printf("---A: resending packet %d\n", send_base);
-      
-      tolayer3(A, send_buffer[index]); 
-      packets_resent++;
-      retransmission_count[index]++;
-      
-      starttimer(A, RTT);
-    } else {
-      /* Max retransmissions reached, assume packet was received */
-      if (TRACE > 0)
-        printf("---A: packet %d reached max retransmissions, marking as ACKED\n", send_base);
-      
-      /* Mark as ACKed to move window forward */
-      send_status[index] = ACKED;
-
-      /* Slide window */
-      while (send_base != next_seqnum && 
-             send_status[seq_to_index(send_base)] == ACKED) {
-        /* Mark slot as unused */
-        send_status[seq_to_index(send_base)] = UNUSED;
-        /* Reset retransmission counter */
-        retransmission_count[seq_to_index(send_base)] = 0;
-        /* Slide window by one */
-        send_base = (send_base + 1) % SEQSPACE;
-      }
+    if (TRACE > 0)
+      printf("---A: resending packet %d\n", send_base);
     
-      /* Restart timer if more packets to send */
-      if (send_base != next_seqnum) {
-        starttimer(A, RTT);
-      }
-    }
+    tolayer3(A, send_buffer[index]); 
+    packets_resent++;
+    retransmission_count[index]++;
+    
+    starttimer(A, RTT);
   }
-}  
+}
 
 
 /* the following routine will be called once (only) before any other */
@@ -310,7 +284,12 @@ void B_input(struct pkt packet)
 {
   struct pkt sendpkt;
   int i;
-  int index;  
+  int index;
+  
+  /* Count this packet as correctly received if it's not corrupted */
+  if (!IsCorrupted(packet)) {
+    packets_received++;
+  }  
   
   /* Check if packet is corrupted */
   if (IsCorrupted(packet)) {
@@ -363,7 +342,6 @@ void B_input(struct pkt packet)
           /* Deliver packet to layer 5 */
           index = recv_seq_to_index(recv_base);
           tolayer5(B, recv_buffer[index].payload);
-          packets_received++;
           
           /* Mark buffer slot as empty */
           recv_status[index] = false;
