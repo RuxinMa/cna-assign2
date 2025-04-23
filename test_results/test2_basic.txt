@@ -1,4 +1,4 @@
-=== TEST: test1_basic ===
+=== TEST: test2_basic ===
 Number of messages: 3
 Loss probability: 0.0
 Corruption probability: 0.0

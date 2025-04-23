@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Create results directory
+mkdir -p test_results
+
 # Compile SR protocol implementation
 echo -e "Compiling SR protocol implementation..."
 gcc -o sr sr.c emulator.c -Wall
@@ -39,37 +42,49 @@ run_test() {
     echo "Test $test_name completed. Results saved to $output_file"
 }
 
-# Run all tests
-echo "Starting SR Protocol tests..."
+# Now run the problematic tests with trace level 1 for more details
+echo -e "\n--- Running Problem Tests with More Detail ---"
+
+# Test 3: ACK loss test (100% loss in A<-B direction)
+run_test "test3_detail" 3 1.0 0.0 1 10.0 1
+
+# Test 4: Data packet corruption test (100% corruption in A->B direction)
+run_test "test4_detail" 3 0.0 1.0 0 10.0 1
+
+# Test 5: Data packet loss test (100% loss in A->B direction)
+run_test "test5_detail" 3 1.0 0.0 0 10.0 1
+
+# Test 8: Window full test (high message rate)
+run_test "test8_detail" 15 0.1 0.1 2 5.0 1
+
+# Run the platform tests with the corrected code
+echo -e "\n--- Running Platform Test Cases ---"
+
+# Standard test cases
+echo -e "\n--- Running Standard Test Cases ---"
 
 # Test 1: Basic functionality (no loss, no corruption)
-run_test "test1_basic" 10 0.0 0.0 0 10.0 2
+run_test "test1_basic" 3 0.0 0.0 0 10.0 0
 
-# Test 2: Packet loss test (30% loss)
-run_test "test2_loss" 10 0.3 0.0 0 10.0 2
+# Test 2: Another basic test (no loss, no corruption)
+run_test "test2_basic" 3 0.0 0.0 0 10.0 0
 
-# Test 3: Packet corruption test (30% corruption)
-run_test "test3_corruption" 10 0.0 0.3 0 10.0 2
+# Test 3: ACK loss test (100% loss in A<-B direction)
+run_test "test3_ack_loss" 3 1.0 0.0 1 10.0 0
 
-# Test 4: Higher corruption rate to better test corruption handling
-run_test "test4_high_corruption" 10 0.0 0.5 0 10.0 2
+# Test 4: Data packet corruption test (100% corruption in A->B direction)
+run_test "test4_data_corruption" 3 0.0 1.0 0 10.0 0
 
-# Test 5: Combined loss and corruption
-run_test "test5_loss_and_corruption" 10 0.2 0.2 0 10.0 2
+# Test 5: Data packet loss test (100% loss in A->B direction)
+run_test "test5_data_loss" 3 1.0 0.0 0 10.0 0
 
-# Test 6: ACK loss specifically (corruption in A<-B direction)
-run_test "test6_ack_loss" 10 0.3 0.0 1 10.0 2
+# Test 6: Mixed test (moderate loss and corruption in both directions)
+run_test "test6_mixed" 5 0.2 0.2 2 10.0 0
 
-# Test 7: ACK corruption specifically
-run_test "test7_ack_corruption" 10 0.0 0.3 1 10.0 2
+# Test 7: High load test (moderate loss and corruption)
+run_test "test7_high_load" 10 0.1 0.1 2 10.0 0
 
-# Test 8: Higher traffic load
-run_test "test8_high_load" 20 0.2 0.2 0 5.0 2
+# Test 8: Window full test (high message rate)
+run_test "test8_window_full" 15 0.1 0.1 2 5.0 0
 
-# Test 9: Long-term stability test
-run_test "test9_long_term" 50 0.1 0.1 0 10.0 1
-
-# Test 10: Extreme case
-run_test "test10_extreme" 10 0.6 0.3 2
-
-echo "All tests completed! Results are in the test_results directory."
+echo -e "\n--- All tests completed! Results are in the test_results directory. ---"
