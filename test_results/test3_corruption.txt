@@ -47,6 +47,9 @@ EVENT time: 35.661861,  type: 0, timerinterrupt   entity: 0
 ----A: time out,resend packets!
 ---A: resending packet 1
           START TIMER: starting timer at 35.661861
+---A: resending packet 2
+---A: resending packet 3
+---A: resending packet 4
 
 EVENT time: 37.491924,  type: 2, fromlayer3  entity: 1
 ----B: packet 2 is correctly received, send ACK!
@@ -57,20 +60,20 @@ EVENT time: 38.978420,  type: 2, fromlayer3  entity: 0
           STOP TIMER: stopping timer at 38.978420
           START TIMER: starting timer at 38.978420
 
-EVENT time: 40.195251,  type: 2, fromlayer3  entity: 0
+EVENT time: 43.083515,  type: 2, fromlayer3  entity: 0
 ----A: uncorrupted ACK 2 is received
 ----A: ACK 2 is not a duplicate
-          STOP TIMER: stopping timer at 40.195251
-          START TIMER: starting timer at 40.195251
+          STOP TIMER: stopping timer at 43.083515
+          START TIMER: starting timer at 43.083515
 
 EVENT time: 44.445286,  type: 2, fromlayer3  entity: 1
 ----B: packet 3 is correctly received, send ACK!
 
-EVENT time: 47.266491,  type: 2, fromlayer3  entity: 0
+EVENT time: 48.864784,  type: 2, fromlayer3  entity: 0
 ----A: uncorrupted ACK 3 is received
 ----A: ACK 3 is not a duplicate
-          STOP TIMER: stopping timer at 47.266491
-          START TIMER: starting timer at 47.266491
+          STOP TIMER: stopping timer at 48.864784
+          START TIMER: starting timer at 48.864784
 
 EVENT time: 50.777023,  type: 2, fromlayer3  entity: 1
 ----B: packet 4 is correctly received, send ACK!
@@ -78,147 +81,173 @@ EVENT time: 50.777023,  type: 2, fromlayer3  entity: 1
 EVENT time: 51.620754,  type: 1, fromlayer5  entity: 0
 ----A: New message arrives, send window is not full, send new messge to layer3!
 Sending packet 5 to layer 3
-          TOLAYER3: packet being corrupted
 
-EVENT time: 57.401627,  type: 2, fromlayer3  entity: 0
+EVENT time: 54.044697,  type: 2, fromlayer3  entity: 0
 ----A: uncorrupted ACK 4 is received
 ----A: ACK 4 is not a duplicate
-          STOP TIMER: stopping timer at 57.401627
-          START TIMER: starting timer at 57.401627
+          STOP TIMER: stopping timer at 54.044697
+          START TIMER: starting timer at 54.044697
 
 EVENT time: 60.227959,  type: 2, fromlayer3  entity: 1
 ----B: packet corrupted or not expected sequence number, resend ACK!
 
-EVENT time: 62.633221,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 4 is received
-----A: ACK 4 is not a duplicate
-
-EVENT time: 66.569618,  type: 2, fromlayer3  entity: 1
+EVENT time: 61.444790,  type: 2, fromlayer3  entity: 1
 ----B: packet corrupted or not expected sequence number, resend ACK!
 
-EVENT time: 68.214249,  type: 1, fromlayer5  entity: 0
+EVENT time: 64.265991,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+
+EVENT time: 64.985474,  type: 1, fromlayer5  entity: 0
 ----A: New message arrives, send window is not full, send new messge to layer3!
 Sending packet 6 to layer 3
+          TOLAYER3: packet being corrupted
 
-EVENT time: 73.401627,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 5
-          START TIMER: starting timer at 73.401627
-
-EVENT time: 73.583740,  type: 2, fromlayer3  entity: 0
+EVENT time: 69.155945,  type: 2, fromlayer3  entity: 0
 ----A: uncorrupted ACK 4 is received
 ----A: ACK 4 is not a duplicate
 
-EVENT time: 75.521202,  type: 2, fromlayer3  entity: 1
-----B: packet 6 is correctly received, send ACK!
+EVENT time: 70.044693,  type: 0, timerinterrupt   entity: 0
+----A: time out,resend packets!
+---A: resending packet 5
+          START TIMER: starting timer at 70.044693
+---A: resending packet 6
 
-EVENT time: 77.411957,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 6 is received
-----A: ACK 6 is not a duplicate
-
-EVENT time: 83.194199,  type: 1, fromlayer5  entity: 0
-----A: New message arrives, send window is not full, send new messge to layer3!
-Sending packet 7 to layer 3
-          TOLAYER3: packet being corrupted
-
-EVENT time: 85.191811,  type: 2, fromlayer3  entity: 1
-----B: packet 5 is correctly received, send ACK!
-
-EVENT time: 86.345955,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 5 is received
-----A: ACK 5 is not a duplicate
-          STOP TIMER: stopping timer at 86.345955
-          START TIMER: starting timer at 86.345955
-
-EVENT time: 90.178024,  type: 2, fromlayer3  entity: 1
+EVENT time: 70.890594,  type: 2, fromlayer3  entity: 1
 ----B: packet corrupted or not expected sequence number, resend ACK!
 
-EVENT time: 94.561035,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 6 is received
-----A: ACK 6 is not a duplicate
+EVENT time: 70.991829,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 7 to layer 3
 
-EVENT time: 99.135536,  type: 1, fromlayer5  entity: 0
+EVENT time: 77.382423,  type: 1, fromlayer5  entity: 0
 ----A: New message arrives, send window is not full, send new messge to layer3!
 Sending packet 8 to layer 3
 
-EVENT time: 101.362762,  type: 2, fromlayer3  entity: 1
-----B: packet 8 is correctly received, send ACK!
+EVENT time: 78.098663,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 4 is received
+----A: ACK 4 is not a duplicate
 
-EVENT time: 102.345955,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 7
-          START TIMER: starting timer at 102.345955
+EVENT time: 78.631569,  type: 2, fromlayer3  entity: 1
+----B: packet 5 is correctly received, send ACK!
 
-EVENT time: 104.288177,  type: 2, fromlayer3  entity: 1
-----B: packet 7 is correctly received, send ACK!
-
-EVENT time: 105.396912,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 8 is received
-----A: ACK 8 is not a duplicate
-
-EVENT time: 111.803932,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 7 is received
-----A: ACK 7 is not a duplicate
-          STOP TIMER: stopping timer at 111.803932
-
-EVENT time: 112.884026,  type: 1, fromlayer5  entity: 0
+EVENT time: 79.476242,  type: 1, fromlayer5  entity: 0
 ----A: New message arrives, send window is not full, send new messge to layer3!
 Sending packet 9 to layer 3
-          TOLAYER3: packet being corrupted
-          START TIMER: starting timer at 112.884026
 
-EVENT time: 122.653290,  type: 2, fromlayer3  entity: 1
+EVENT time: 79.951912,  type: 2, fromlayer3  entity: 1
 ----B: packet corrupted or not expected sequence number, resend ACK!
 
-EVENT time: 128.884033,  type: 0, timerinterrupt   entity: 0
+EVENT time: 82.955696,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 4 is received
+----A: ACK 4 is not a duplicate
+
+EVENT time: 85.182922,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 4 is received
+----A: ACK 4 is not a duplicate
+
+EVENT time: 86.044693,  type: 0, timerinterrupt   entity: 0
 ----A: time out,resend packets!
----A: resending packet 9
+---A: resending packet 5
           TOLAYER3: packet being corrupted
-          START TIMER: starting timer at 128.884033
+          START TIMER: starting timer at 86.044693
+---A: resending packet 6
+---A: resending packet 7
+---A: resending packet 8
+---A: resending packet 9
 
-EVENT time: 128.976517,  type: 1, fromlayer5  entity: 0
-
-EVENT time: 129.191299,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 8 is received
-----A: ACK 8 is not a duplicate
-
-EVENT time: 137.477432,  type: 2, fromlayer3  entity: 1
+EVENT time: 88.641380,  type: 2, fromlayer3  entity: 1
 ----B: packet corrupted or not expected sequence number, resend ACK!
 
-EVENT time: 139.709579,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 8 is received
-----A: ACK 8 is not a duplicate
+EVENT time: 93.424545,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 5 is received
+----A: ACK 5 is not a duplicate
+          STOP TIMER: stopping timer at 93.424545
+          START TIMER: starting timer at 93.424545
 
-EVENT time: 144.884033,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 9
-          TOLAYER3: packet being corrupted
-          START TIMER: starting timer at 144.884033
+EVENT time: 94.876709,  type: 2, fromlayer3  entity: 1
+----B: packet 6 is correctly received, send ACK!
 
-EVENT time: 154.832642,  type: 2, fromlayer3  entity: 1
-----B: packet corrupted or not expected sequence number, resend ACK!
+EVENT time: 96.819153,  type: 2, fromlayer3  entity: 1
+----B: packet 7 is correctly received, send ACK!
 
-EVENT time: 159.007797,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 8 is received
-----A: ACK 8 is not a duplicate
+EVENT time: 98.963493,  type: 1, fromlayer5  entity: 0
 
-EVENT time: 160.884033,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 9
-          START TIMER: starting timer at 160.884033
+EVENT time: 102.488960,  type: 2, fromlayer3  entity: 1
+----B: packet 8 is correctly received, send ACK!
 
-EVENT time: 168.759933,  type: 2, fromlayer3  entity: 1
+EVENT time: 102.759331,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 5 is received
+----A: ACK 5 is not a duplicate
+
+EVENT time: 104.529274,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 5 is received
+----A: ACK 5 is not a duplicate
+
+EVENT time: 106.858475,  type: 2, fromlayer3  entity: 1
 ----B: packet 9 is correctly received, send ACK!
 
-EVENT time: 170.529877,  type: 2, fromlayer3  entity: 0
+EVENT time: 107.790901,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 6 is received
+----A: ACK 6 is not a duplicate
+          STOP TIMER: stopping timer at 107.790901
+          START TIMER: starting timer at 107.790901
+
+EVENT time: 110.071777,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+
+EVENT time: 115.445602,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 7 is received
+----A: ACK 7 is not a duplicate
+          STOP TIMER: stopping timer at 115.445602
+          START TIMER: starting timer at 115.445602
+
+EVENT time: 119.773880,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+
+EVENT time: 121.066704,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+
+EVENT time: 121.859955,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 8 is received
+----A: ACK 8 is not a duplicate
+          STOP TIMER: stopping timer at 121.859955
+          START TIMER: starting timer at 121.859955
+
+EVENT time: 125.241867,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+
+EVENT time: 131.745331,  type: 2, fromlayer3  entity: 0
 ----A: uncorrupted ACK 9 is received
 ----A: ACK 9 is not a duplicate
-          STOP TIMER: stopping timer at 170.529877
- Simulator terminated at time 170.529877
+          STOP TIMER: stopping timer at 131.745331
+
+EVENT time: 133.117767,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+
+EVENT time: 140.803955,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 9 is received
+----A: ACK 9 is not a duplicate
+
+EVENT time: 149.649445,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 9 is received
+----A: ACK 9 is not a duplicate
+
+EVENT time: 159.514801,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 9 is received
+----A: ACK 9 is not a duplicate
+
+EVENT time: 169.089951,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 9 is received
+----A: ACK 9 is not a duplicate
+
+EVENT time: 174.533966,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 9 is received
+----A: ACK 9 is not a duplicate
+ Simulator terminated at time 174.533966
  after attempting to send 10 msgs from layer5
 number of messages dropped due to full window:  0 
 number of valid (not corrupt or duplicate) acknowledgements received at A:  10 
 (note: a single acknowledgement may have acknowledged more than one packet - if cumulative acknowledgements are used)
-number of packet resends by A:  6 
+number of packet resends by A:  11 
 number of correct packets received at B:  10 
 number of messages delivered to application:  10 

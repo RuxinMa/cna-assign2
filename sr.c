@@ -144,6 +144,7 @@ void A_output(struct msg message)
 void A_input(struct pkt packet)
 {
   int index; /* Move declaration to the beginning */
+  bool need_to_start_timer = false;
 
   /* if received ACK is not corrupted */ 
   if (!IsCorrupted(packet)) {
@@ -168,19 +169,20 @@ void A_input(struct pkt packet)
         
         if (packet.acknum == send_base) {
           stoptimer(A);
+          need_to_start_timer = true;
+        }
 
-          /* Check if we can slide the window */
-          while (send_status[seq_to_index(send_base)] == ACKED) {
-            /* Mark slot as unused */
-            send_status[seq_to_index(send_base)] = UNUSED;
-            /* Slide window by one */
-            send_base = (send_base + 1) % SEQSPACE;
-          }
+        /* Check if we can slide the window */
+        while (send_status[seq_to_index(send_base)] == ACKED) {
+          /* Mark slot as unused */
+          send_status[seq_to_index(send_base)] = UNUSED;
+          /* Slide window by one */
+          send_base = (send_base + 1) % SEQSPACE;
+        }
 
-          /* start timer again if there are still more unacked packets in window */
-          if (send_base != next_seqnum) {
-            starttimer(A, RTT);
-          }
+        /* If we need to restart the timer and there are unacked packets */
+        if (need_to_start_timer && send_base != next_seqnum) {
+          starttimer(A, RTT);
         }
       }
       else {
@@ -202,43 +204,76 @@ void A_input(struct pkt packet)
 /* called when A's timer goes off */
 void A_timerinterrupt(void)
 {
+  int i;
+  int window_size = 0;
+  bool timer_restarted = false;
+  
   if (TRACE > 0)
     printf("----A: time out,resend packets!\n");
   
   if (send_base != next_seqnum) {
-    int index = seq_to_index(send_base);
-    /* Check if we've reached the maximum retransmission limit */
-    if (retransmission_count[index] < MAX_RETRANSMISSIONS) {
-      if (TRACE > 0)
-        printf("---A: resending packet %d\n", send_base);
-      
-      tolayer3(A, send_buffer[seq_to_index(send_base)]);
-      packets_resent++;
-      retransmission_count[index]++;
-
-      starttimer(A, RTT);
+    /* Calculate current window size */
+    if (send_base <= next_seqnum) {
+      window_size = next_seqnum - send_base;
     } else {
-      /* Max retransmissions reached, assume packet was received */
-      if (TRACE > 0)
-        printf("---A: packet %d reached max retransmissions, marking as ACKED\n", send_base);
+      window_size = SEQSPACE - send_base + next_seqnum;
+    }
+
+    /* Check each packet in the window */
+    for (i = 0; i < window_size; i++) {
+      int seqnum = (send_base + i) % SEQSPACE;
+      int index = seq_to_index(seqnum);
       
-      /* Mark as ACKed to move window forward */
-      send_status[index] = ACKED;
-      
-      /* Slide window */
-      while (send_status[seq_to_index(send_base)] == ACKED && send_base != next_seqnum) {
-        /* Mark slot as unused */
-        send_status[seq_to_index(send_base)] = UNUSED;
-        /* Reset retransmission counter */
-        retransmission_count[seq_to_index(send_base)] = 0;
-        /* Slide window by one */
-        send_base = (send_base + 1) % SEQSPACE;
+      /* If packet is sent but not acked */
+      if (send_status[index] == SENT) {
+        /* Check if we've reached the maximum retransmission limit */
+        if (retransmission_count[index] < MAX_RETRANSMISSIONS) {
+          if (TRACE > 0)
+            printf("---A: resending packet %d\n", seqnum);
+          
+          tolayer3(A, send_buffer[index]); 
+          packets_resent++;
+          retransmission_count[index]++;
+
+          /* Start timer for the first packet we resend */
+          if (!timer_restarted) {
+            starttimer(A, RTT);
+            timer_restarted = true;
+          }
+        } else {
+          /* Max retransmissions reached, assume packet was received */
+          if (TRACE > 0)
+            printf("---A: packet %d reached max retransmissions, marking as ACKED\n", send_base);
+          
+          /* Mark as ACKed to move window forward */
+          send_status[index] = ACKED;
+
+
+          /* If this is the base, we need to slide the window */
+          if (seqnum == send_base) {
+            /* Slide window */
+            while (send_status[seq_to_index(send_base)] == ACKED && send_base != next_seqnum) {
+              /* Mark slot as unused */
+              send_status[seq_to_index(send_base)] = UNUSED;
+              /* Reset retransmission counter */
+              retransmission_count[seq_to_index(send_base)] = 0;
+              /* Slide window by one */
+              send_base = (send_base + 1) % SEQSPACE;
+            }
+          
+            /* Restart timer if more packets to send */
+            if (send_base != next_seqnum && !timer_restarted) {
+              starttimer(A, RTT);
+              timer_restarted = true;
+            }
+          }
+        }
       }
-      
-      /* Restart timer if more packets to send */
-      if (send_base != next_seqnum) {
-        starttimer(A, RTT);
-      }
+    }
+  
+    /* If no timer was restarted but we still have unacked packets, start the timer */
+    if (!timer_restarted && send_base != next_seqnum) {
+      starttimer(A, RTT);
     }
   }
 }       
@@ -271,6 +306,7 @@ static struct pkt recv_buffer[WINDOWSIZE];      /* buffer for out-of-order packe
 static bool recv_status[WINDOWSIZE];           /* status for each packet in window */
 static int recv_base;                          /* lowest sequence number in window */
 static int B_nextseqnum;                       /* sequence number for ACK packets */
+static int last_ack_sent = -1;                 /* Last ACK number that was sent */
 
 /* Helper function to check if seqnum is in receive window */
 static bool in_recv_window(int seqnum)
@@ -305,7 +341,12 @@ void B_input(struct pkt packet)
       printf("----B: packet corrupted or not expected sequence number, resend ACK!\n");
     
     /* Send ACK for last correctly received packet */
-    sendpkt.acknum = (recv_base - 1 + SEQSPACE) % SEQSPACE;
+    if (last_ack_sent != -1) {
+      sendpkt.acknum = last_ack_sent;
+    } else {
+      /* If no packet has been correctly received yet, just use recv_base-1 */
+      sendpkt.acknum = (recv_base - 1 + SEQSPACE) % SEQSPACE;
+    }
   }
   else {
     if (TRACE > 1) 
@@ -339,6 +380,7 @@ void B_input(struct pkt packet)
         
     /* Send ACK for this packet */
     sendpkt.acknum = packet.seqnum;
+    last_ack_sent = packet.seqnum;
   }
 
   /* create packet */
@@ -365,6 +407,7 @@ void B_init(void)
   /* Initialize receiver variables */
   recv_base = 0;
   B_nextseqnum = 1;
+  last_ack_sent = -1;  /* Initialize to indicate no ACK sent yet */
 
   /* Initialize receiver buffer */
     for (i = 0; i < WINDOWSIZE; i++) {

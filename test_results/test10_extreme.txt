@@ -133,534 +133,356 @@ EVENT time: 16.000000,  type: 0, timerinterrupt   entity: 0
           START TIMER: starting timer at 16.000000
             INSERTEVENT: time is 16.000000
             INSERTEVENT: future time will be 32.000000
+---A: resending packet 1
+          TOLAYER3: seq: 1, ack -1, check: 1960 bbbbbbbbbbbbbbbbbbbb
+          TOLAYER3: packet being corrupted
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 16.000000
+            INSERTEVENT: future time will be 29.991770
+---A: resending packet 2
+          TOLAYER3: packet being lost
+---A: resending packet 3
+          TOLAYER3: packet being lost
+---A: resending packet 4
+          TOLAYER3: seq: 4, ack -1, check: 2023 eeeeeeeeeeeeeeeeeeee
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 16.000000
+            INSERTEVENT: future time will be 31.015667
 
 EVENT time: 21.842949,  type: 2, fromlayer3  entity: 1
 ----B: packet 0 is correctly received, send ACK!
           TOLAYER5: data received by application at B: aaaaaaaaaaaaaaaaaaaa
           TOLAYER3: seq: 1, ack 0, check: 961 00000000000000000000
-          TOLAYER3: packet being corrupted
           TOLAYER3: scheduling arrival on other side
             INSERTEVENT: time is 21.842949
-            INSERTEVENT: future time will be 29.991770
+            INSERTEVENT: future time will be 30.310022
 
-EVENT time: 29.991770,  type: 2, fromlayer3  entity: 0
-----A: corrupted ACK is received, do nothing!
-
-EVENT time: 32.000000,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 0
-          TOLAYER3: packet being lost
-          START TIMER: starting timer at 32.000000
-            INSERTEVENT: time is 32.000000
-            INSERTEVENT: future time will be 48.000000
-
-EVENT time: 48.000000,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 0
-          TOLAYER3: packet being lost
-          START TIMER: starting timer at 48.000000
-            INSERTEVENT: time is 48.000000
-            INSERTEVENT: future time will be 64.000000
-
-EVENT time: 64.000000,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 0
-          TOLAYER3: seq: 0, ack -1, check: 1939 aaaaaaaaaaaaaaaaaaaa
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 64.000000
-            INSERTEVENT: future time will be 65.023895
-          START TIMER: starting timer at 64.000000
-            INSERTEVENT: time is 64.000000
-            INSERTEVENT: future time will be 80.000000
-
-EVENT time: 65.023895,  type: 2, fromlayer3  entity: 1
+EVENT time: 29.991770,  type: 2, fromlayer3  entity: 1
 ----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: seq: 0, ack 0, check: 960 00000000000000000000
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 65.023895
-            INSERTEVENT: future time will be 73.490967
+          TOLAYER3: packet being lost
 
-EVENT time: 73.490967,  type: 2, fromlayer3  entity: 0
+EVENT time: 30.310022,  type: 2, fromlayer3  entity: 0
 ----A: uncorrupted ACK 0 is received
 ----A: ACK 0 is not a duplicate
-          STOP TIMER: stopping timer at 73.490967
-          START TIMER: starting timer at 73.490967
-            INSERTEVENT: time is 73.490967
-            INSERTEVENT: future time will be 89.490967
+          STOP TIMER: stopping timer at 30.310022
+          START TIMER: starting timer at 30.310022
+            INSERTEVENT: time is 30.310022
+            INSERTEVENT: future time will be 46.310020
 
-EVENT time: 89.490967,  type: 0, timerinterrupt   entity: 0
+EVENT time: 31.015667,  type: 2, fromlayer3  entity: 1
+----B: packet 4 is correctly received, send ACK!
+          TOLAYER3: packet being lost
+
+EVENT time: 46.310020,  type: 0, timerinterrupt   entity: 0
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being lost
-          START TIMER: starting timer at 89.490967
-            INSERTEVENT: time is 89.490967
-            INSERTEVENT: future time will be 105.490967
-
-EVENT time: 105.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 1
-          TOLAYER3: packet being lost
-          START TIMER: starting timer at 105.490967
-            INSERTEVENT: time is 105.490967
-            INSERTEVENT: future time will be 121.490967
-
-EVENT time: 121.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 1
-          TOLAYER3: packet being lost
-          START TIMER: starting timer at 121.490967
-            INSERTEVENT: time is 121.490967
-            INSERTEVENT: future time will be 137.490967
-
-EVENT time: 137.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 1
-          TOLAYER3: seq: 1, ack -1, check: 1960 bbbbbbbbbbbbbbbbbbbb
+          START TIMER: starting timer at 46.310020
+            INSERTEVENT: time is 46.310020
+            INSERTEVENT: future time will be 62.310020
+---A: resending packet 2
+          TOLAYER3: seq: 2, ack -1, check: 1981 cccccccccccccccccccc
           TOLAYER3: packet being corrupted
           TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 137.490967
-            INSERTEVENT: future time will be 139.896225
-          START TIMER: starting timer at 137.490967
-            INSERTEVENT: time is 137.490967
-            INSERTEVENT: future time will be 153.490967
+            INSERTEVENT: time is 46.310020
+            INSERTEVENT: future time will be 48.715282
+---A: resending packet 3
+          TOLAYER3: seq: 3, ack -1, check: 2002 dddddddddddddddddddd
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 46.310020
+            INSERTEVENT: future time will be 50.074997
+---A: resending packet 4
+          TOLAYER3: packet being lost
 
-EVENT time: 139.896225,  type: 2, fromlayer3  entity: 1
+EVENT time: 48.715282,  type: 2, fromlayer3  entity: 1
 ----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: seq: 1, ack 0, check: 961 00000000000000000000
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 139.896225
-            INSERTEVENT: future time will be 141.255936
-
-EVENT time: 141.255936,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 0 is received
-----A: ACK 0 is not a duplicate
-
-EVENT time: 153.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 1
-          TOLAYER3: packet being lost
-          START TIMER: starting timer at 153.490967
-            INSERTEVENT: time is 153.490967
-            INSERTEVENT: future time will be 169.490967
-
-EVENT time: 169.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 1
-          TOLAYER3: seq: 1, ack -1, check: 1960 bbbbbbbbbbbbbbbbbbbb
+          TOLAYER3: seq: 0, ack 4, check: 964 00000000000000000000
           TOLAYER3: packet being corrupted
           TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 169.490967
-            INSERTEVENT: future time will be 178.418945
-          START TIMER: starting timer at 169.490967
-            INSERTEVENT: time is 169.490967
-            INSERTEVENT: future time will be 185.490967
+            INSERTEVENT: time is 48.715282
+            INSERTEVENT: future time will be 57.643269
 
-EVENT time: 178.418945,  type: 2, fromlayer3  entity: 1
-----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: seq: 0, ack 0, check: 960 00000000000000000000
+EVENT time: 50.074997,  type: 2, fromlayer3  entity: 1
+----B: packet 3 is correctly received, send ACK!
+          TOLAYER3: seq: 1, ack 3, check: 964 00000000000000000000
           TOLAYER3: packet being corrupted
           TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 178.418945
-            INSERTEVENT: future time will be 184.712326
+            INSERTEVENT: time is 50.074997
+            INSERTEVENT: future time will be 63.936653
 
-EVENT time: 184.712326,  type: 2, fromlayer3  entity: 0
+EVENT time: 57.643269,  type: 2, fromlayer3  entity: 0
 ----A: corrupted ACK is received, do nothing!
 
-EVENT time: 185.490967,  type: 0, timerinterrupt   entity: 0
+EVENT time: 62.310020,  type: 0, timerinterrupt   entity: 0
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: seq: 1, ack -1, check: 1960 bbbbbbbbbbbbbbbbbbbb
           TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 185.490967
-            INSERTEVENT: future time will be 189.193832
-          START TIMER: starting timer at 185.490967
-            INSERTEVENT: time is 185.490967
-            INSERTEVENT: future time will be 201.490967
+            INSERTEVENT: time is 62.310020
+            INSERTEVENT: future time will be 66.012878
+          START TIMER: starting timer at 62.310020
+            INSERTEVENT: time is 62.310020
+            INSERTEVENT: future time will be 78.310020
+---A: resending packet 2
+          TOLAYER3: packet being lost
+---A: resending packet 3
+          TOLAYER3: packet being lost
+---A: resending packet 4
+          TOLAYER3: packet being lost
 
-EVENT time: 189.193832,  type: 2, fromlayer3  entity: 1
+EVENT time: 63.936653,  type: 2, fromlayer3  entity: 0
+----A: corrupted ACK is received, do nothing!
+
+EVENT time: 66.012878,  type: 2, fromlayer3  entity: 1
 ----B: packet 1 is correctly received, send ACK!
           TOLAYER5: data received by application at B: bbbbbbbbbbbbbbbbbbbb
           TOLAYER3: packet being lost
 
-EVENT time: 201.490967,  type: 0, timerinterrupt   entity: 0
+EVENT time: 78.310020,  type: 0, timerinterrupt   entity: 0
 ----A: time out,resend packets!
 ---A: resending packet 1
+          TOLAYER3: seq: 1, ack -1, check: 1960 bbbbbbbbbbbbbbbbbbbb
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 78.310020
+            INSERTEVENT: future time will be 85.258461
+          START TIMER: starting timer at 78.310020
+            INSERTEVENT: time is 78.310020
+            INSERTEVENT: future time will be 94.310020
+---A: resending packet 2
           TOLAYER3: packet being lost
-          START TIMER: starting timer at 201.490967
-            INSERTEVENT: time is 201.490967
-            INSERTEVENT: future time will be 217.490967
+---A: resending packet 3
+          TOLAYER3: seq: 3, ack -1, check: 2002 dddddddddddddddddddd
+          TOLAYER3: packet being corrupted
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 78.310020
+            INSERTEVENT: future time will be 91.149178
+---A: resending packet 4
+          TOLAYER3: packet being lost
 
-EVENT time: 217.490967,  type: 0, timerinterrupt   entity: 0
+EVENT time: 85.258461,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+          TOLAYER3: packet being lost
+
+EVENT time: 91.149178,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+          TOLAYER3: packet being lost
+
+EVENT time: 94.310020,  type: 0, timerinterrupt   entity: 0
 ----A: time out,resend packets!
 ---A: resending packet 1
+          TOLAYER3: seq: 1, ack -1, check: 1960 bbbbbbbbbbbbbbbbbbbb
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 94.310020
+            INSERTEVENT: future time will be 96.252243
+          START TIMER: starting timer at 94.310020
+            INSERTEVENT: time is 94.310020
+            INSERTEVENT: future time will be 110.310020
+---A: resending packet 2
           TOLAYER3: packet being lost
-          START TIMER: starting timer at 217.490967
-            INSERTEVENT: time is 217.490967
-            INSERTEVENT: future time will be 233.490967
-
-EVENT time: 233.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 1
+---A: resending packet 3
+          TOLAYER3: seq: 3, ack -1, check: 2002 dddddddddddddddddddd
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 94.310020
+            INSERTEVENT: future time will be 100.072571
+---A: resending packet 4
           TOLAYER3: packet being lost
-          START TIMER: starting timer at 233.490967
-            INSERTEVENT: time is 233.490967
-            INSERTEVENT: future time will be 249.490967
 
-EVENT time: 249.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: packet 1 reached max retransmissions, marking as ACKED
-          START TIMER: starting timer at 249.490967
-            INSERTEVENT: time is 249.490967
-            INSERTEVENT: future time will be 265.490967
+EVENT time: 96.252243,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+          TOLAYER3: seq: 1, ack 1, check: 962 00000000000000000000
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 96.252243
+            INSERTEVENT: future time will be 98.261307
 
-EVENT time: 265.490967,  type: 0, timerinterrupt   entity: 0
+EVENT time: 98.261307,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 1 is received
+----A: ACK 1 is not a duplicate
+          STOP TIMER: stopping timer at 98.261307
+          START TIMER: starting timer at 98.261307
+            INSERTEVENT: time is 98.261307
+            INSERTEVENT: future time will be 114.261307
+
+EVENT time: 100.072571,  type: 2, fromlayer3  entity: 1
+----B: packet 3 is correctly received, send ACK!
+          TOLAYER3: packet being lost
+
+EVENT time: 114.261307,  type: 0, timerinterrupt   entity: 0
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: seq: 2, ack -1, check: 1981 cccccccccccccccccccc
           TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 265.490967
-            INSERTEVENT: future time will be 272.439392
-          START TIMER: starting timer at 265.490967
-            INSERTEVENT: time is 265.490967
-            INSERTEVENT: future time will be 281.490967
+            INSERTEVENT: time is 114.261307
+            INSERTEVENT: future time will be 123.596092
+          START TIMER: starting timer at 114.261307
+            INSERTEVENT: time is 114.261307
+            INSERTEVENT: future time will be 130.261307
+---A: resending packet 3
+          TOLAYER3: seq: 3, ack -1, check: 2002 dddddddddddddddddddd
+          TOLAYER3: packet being corrupted
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 114.261307
+            INSERTEVENT: future time will be 126.809395
+---A: resending packet 4
+          TOLAYER3: packet being lost
 
-EVENT time: 272.439392,  type: 2, fromlayer3  entity: 1
+EVENT time: 123.596092,  type: 2, fromlayer3  entity: 1
 ----B: packet 2 is correctly received, send ACK!
           TOLAYER5: data received by application at B: cccccccccccccccccccc
-          TOLAYER3: packet being lost
-
-EVENT time: 281.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 2
-          TOLAYER3: seq: 2, ack -1, check: 1981 cccccccccccccccccccc
-          TOLAYER3: packet being corrupted
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 281.490967
-            INSERTEVENT: future time will be 287.381683
-          START TIMER: starting timer at 281.490967
-            INSERTEVENT: time is 281.490967
-            INSERTEVENT: future time will be 297.490967
-
-EVENT time: 287.381683,  type: 2, fromlayer3  entity: 1
-----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: packet being lost
-
-EVENT time: 297.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 2
-          TOLAYER3: packet being lost
-          START TIMER: starting timer at 297.490967
-            INSERTEVENT: time is 297.490967
-            INSERTEVENT: future time will be 313.490967
-
-EVENT time: 313.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 2
-          TOLAYER3: packet being lost
-          START TIMER: starting timer at 313.490967
-            INSERTEVENT: time is 313.490967
-            INSERTEVENT: future time will be 329.490967
-
-EVENT time: 329.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 2
-          TOLAYER3: seq: 2, ack -1, check: 1981 cccccccccccccccccccc
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 329.490967
-            INSERTEVENT: future time will be 331.433197
-          START TIMER: starting timer at 329.490967
-            INSERTEVENT: time is 329.490967
-            INSERTEVENT: future time will be 345.490967
-
-EVENT time: 331.433197,  type: 2, fromlayer3  entity: 1
-----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: packet being lost
-
-EVENT time: 345.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 2
-          TOLAYER3: seq: 2, ack -1, check: 1981 cccccccccccccccccccc
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 345.490967
-            INSERTEVENT: future time will be 349.311279
-          START TIMER: starting timer at 345.490967
-            INSERTEVENT: time is 345.490967
-            INSERTEVENT: future time will be 361.490967
-
-EVENT time: 349.311279,  type: 2, fromlayer3  entity: 1
-----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: packet being lost
-
-EVENT time: 361.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 2
-          TOLAYER3: seq: 2, ack -1, check: 1981 cccccccccccccccccccc
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 361.490967
-            INSERTEVENT: future time will be 363.500031
-          START TIMER: starting timer at 361.490967
-            INSERTEVENT: time is 361.490967
-            INSERTEVENT: future time will be 377.490967
-
-EVENT time: 363.500031,  type: 2, fromlayer3  entity: 1
-----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: packet being lost
-
-EVENT time: 377.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 2
-          TOLAYER3: seq: 2, ack -1, check: 1981 cccccccccccccccccccc
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 377.490967
-            INSERTEVENT: future time will be 386.825745
-          START TIMER: starting timer at 377.490967
-            INSERTEVENT: time is 377.490967
-            INSERTEVENT: future time will be 393.490967
-
-EVENT time: 386.825745,  type: 2, fromlayer3  entity: 1
-----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: seq: 1, ack 2, check: 963 00000000000000000000
-          TOLAYER3: packet being corrupted
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 386.825745
-            INSERTEVENT: future time will be 390.039032
-
-EVENT time: 390.039032,  type: 2, fromlayer3  entity: 0
-----A: corrupted ACK is received, do nothing!
-
-EVENT time: 393.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 2
-          TOLAYER3: packet being lost
-          START TIMER: starting timer at 393.490967
-            INSERTEVENT: time is 393.490967
-            INSERTEVENT: future time will be 409.490967
-
-EVENT time: 409.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 2
-          TOLAYER3: seq: 2, ack -1, check: 1981 cccccccccccccccccccc
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 409.490967
-            INSERTEVENT: future time will be 416.712830
-          START TIMER: starting timer at 409.490967
-            INSERTEVENT: time is 409.490967
-            INSERTEVENT: future time will be 425.490967
-
-EVENT time: 416.712830,  type: 2, fromlayer3  entity: 1
-----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: packet being lost
-
-EVENT time: 425.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: packet 2 reached max retransmissions, marking as ACKED
-          START TIMER: starting timer at 425.490967
-            INSERTEVENT: time is 425.490967
-            INSERTEVENT: future time will be 441.490967
-
-EVENT time: 441.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 3
-          TOLAYER3: seq: 3, ack -1, check: 2002 dddddddddddddddddddd
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 441.490967
-            INSERTEVENT: future time will be 450.714172
-          START TIMER: starting timer at 441.490967
-            INSERTEVENT: time is 441.490967
-            INSERTEVENT: future time will be 457.490967
-
-EVENT time: 450.714172,  type: 2, fromlayer3  entity: 1
-----B: packet 3 is correctly received, send ACK!
           TOLAYER5: data received by application at B: dddddddddddddddddddd
-          TOLAYER3: packet being lost
-
-EVENT time: 457.490967,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 3
-          TOLAYER3: seq: 3, ack -1, check: 2002 dddddddddddddddddddd
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 457.490967
-            INSERTEVENT: future time will be 465.366852
-          START TIMER: starting timer at 457.490967
-            INSERTEVENT: time is 457.490967
-            INSERTEVENT: future time will be 473.490967
-
-EVENT time: 465.366852,  type: 2, fromlayer3  entity: 1
-----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: seq: 0, ack 3, check: 963 00000000000000000000
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 465.366852
-            INSERTEVENT: future time will be 467.136810
-
-EVENT time: 467.136810,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 3 is received
-----A: ACK 3 is not a duplicate
-          STOP TIMER: stopping timer at 467.136810
-          START TIMER: starting timer at 467.136810
-            INSERTEVENT: time is 467.136810
-            INSERTEVENT: future time will be 483.136810
-
-EVENT time: 483.136810,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 4
-          TOLAYER3: seq: 4, ack -1, check: 2023 eeeeeeeeeeeeeeeeeeee
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 483.136810
-            INSERTEVENT: future time will be 486.398438
-          START TIMER: starting timer at 483.136810
-            INSERTEVENT: time is 483.136810
-            INSERTEVENT: future time will be 499.136810
-
-EVENT time: 486.398438,  type: 2, fromlayer3  entity: 1
-----B: packet 4 is correctly received, send ACK!
           TOLAYER5: data received by application at B: eeeeeeeeeeeeeeeeeeee
           TOLAYER5: data received by application at B: ffffffffffffffffffff
-          TOLAYER3: seq: 1, ack 4, check: 965 00000000000000000000
+          TOLAYER3: seq: 1, ack 2, check: 963 00000000000000000000
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 123.596092
+            INSERTEVENT: future time will be 130.817963
+
+EVENT time: 126.809395,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+          TOLAYER3: packet being lost
+
+EVENT time: 130.261307,  type: 0, timerinterrupt   entity: 0
+----A: time out,resend packets!
+---A: resending packet 2
+          TOLAYER3: seq: 2, ack -1, check: 1981 cccccccccccccccccccc
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 130.261307
+            INSERTEVENT: future time will be 139.484497
+          START TIMER: starting timer at 130.261307
+            INSERTEVENT: time is 130.261307
+            INSERTEVENT: future time will be 146.261307
+---A: resending packet 3
+          TOLAYER3: packet being lost
+---A: resending packet 4
+          TOLAYER3: seq: 4, ack -1, check: 2023 eeeeeeeeeeeeeeeeeeee
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 130.261307
+            INSERTEVENT: future time will be 147.360397
+
+EVENT time: 130.817963,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 2 is received
+----A: ACK 2 is not a duplicate
+          STOP TIMER: stopping timer at 130.817963
+          START TIMER: starting timer at 130.817963
+            INSERTEVENT: time is 130.817963
+            INSERTEVENT: future time will be 146.817963
+
+EVENT time: 139.484497,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+          TOLAYER3: seq: 1, ack 2, check: 963 00000000000000000000
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 139.484497
+            INSERTEVENT: future time will be 141.254440
+
+EVENT time: 141.254440,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 2 is received
+----A: ACK 2 is not a duplicate
+
+EVENT time: 146.817963,  type: 0, timerinterrupt   entity: 0
+----A: time out,resend packets!
+---A: resending packet 3
+          TOLAYER3: seq: 3, ack -1, check: 2002 dddddddddddddddddddd
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 146.817963
+            INSERTEVENT: future time will be 150.622025
+          START TIMER: starting timer at 146.817963
+            INSERTEVENT: time is 146.817963
+            INSERTEVENT: future time will be 162.817963
+---A: resending packet 4
+          TOLAYER3: seq: 4, ack -1, check: 2023 eeeeeeeeeeeeeeeeeeee
           TOLAYER3: packet being corrupted
           TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 486.398438
-            INSERTEVENT: future time will be 494.053131
+            INSERTEVENT: time is 146.817963
+            INSERTEVENT: future time will be 158.276733
 
-EVENT time: 494.053131,  type: 2, fromlayer3  entity: 0
+EVENT time: 147.360397,  type: 2, fromlayer3  entity: 1
+----B: packet corrupted or not expected sequence number, resend ACK!
+          TOLAYER3: seq: 0, ack 2, check: 962 00000000000000000000
+          TOLAYER3: packet being corrupted
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 147.360397
+            INSERTEVENT: future time will be 148.406448
+
+EVENT time: 148.406448,  type: 2, fromlayer3  entity: 0
 ----A: corrupted ACK is received, do nothing!
 
-EVENT time: 499.136810,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 4
-          TOLAYER3: seq: 4, ack -1, check: 2023 eeeeeeeeeeeeeeeeeeee
-          TOLAYER3: packet being corrupted
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 499.136810
-            INSERTEVENT: future time will be 500.182861
-          START TIMER: starting timer at 499.136810
-            INSERTEVENT: time is 499.136810
-            INSERTEVENT: future time will be 515.136841
-
-EVENT time: 500.182861,  type: 2, fromlayer3  entity: 1
+EVENT time: 150.622025,  type: 2, fromlayer3  entity: 1
 ----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: seq: 0, ack 5, check: 965 00000000000000000000
+          TOLAYER3: seq: 1, ack 2, check: 963 00000000000000000000
           TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 500.182861
-            INSERTEVENT: future time will be 504.444489
+            INSERTEVENT: time is 150.622025
+            INSERTEVENT: future time will be 154.883652
 
-EVENT time: 504.444489,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 5 is received
-----A: ACK 5 is not a duplicate
+EVENT time: 154.883652,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 2 is received
+----A: ACK 2 is not a duplicate
 
-EVENT time: 515.136841,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 4
-          TOLAYER3: packet being lost
-          START TIMER: starting timer at 515.136841
-            INSERTEVENT: time is 515.136841
-            INSERTEVENT: future time will be 531.136841
-
-EVENT time: 531.136841,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 4
-          TOLAYER3: packet being lost
-          START TIMER: starting timer at 531.136841
-            INSERTEVENT: time is 531.136841
-            INSERTEVENT: future time will be 547.136841
-
-EVENT time: 547.136841,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 4
-          TOLAYER3: seq: 4, ack -1, check: 2023 eeeeeeeeeeeeeeeeeeee
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 547.136841
-            INSERTEVENT: future time will be 548.265869
-          START TIMER: starting timer at 547.136841
-            INSERTEVENT: time is 547.136841
-            INSERTEVENT: future time will be 563.136841
-
-EVENT time: 548.265869,  type: 2, fromlayer3  entity: 1
-----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: seq: 1, ack 5, check: 966 00000000000000000000
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 548.265869
-            INSERTEVENT: future time will be 554.396851
-
-EVENT time: 554.396851,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 5 is received
-----A: ACK 5 is not a duplicate
-
-EVENT time: 563.136841,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 4
-          TOLAYER3: seq: 4, ack -1, check: 2023 eeeeeeeeeeeeeeeeeeee
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 563.136841
-            INSERTEVENT: future time will be 569.660400
-          START TIMER: starting timer at 563.136841
-            INSERTEVENT: time is 563.136841
-            INSERTEVENT: future time will be 579.136841
-
-EVENT time: 569.660400,  type: 2, fromlayer3  entity: 1
+EVENT time: 158.276733,  type: 2, fromlayer3  entity: 1
 ----B: packet corrupted or not expected sequence number, resend ACK!
           TOLAYER3: packet being lost
 
-EVENT time: 579.136841,  type: 0, timerinterrupt   entity: 0
+EVENT time: 162.817963,  type: 0, timerinterrupt   entity: 0
 ----A: time out,resend packets!
+---A: resending packet 3
+          TOLAYER3: packet being lost
+          START TIMER: starting timer at 162.817963
+            INSERTEVENT: time is 162.817963
+            INSERTEVENT: future time will be 178.817963
 ---A: resending packet 4
           TOLAYER3: seq: 4, ack -1, check: 2023 eeeeeeeeeeeeeeeeeeee
           TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 579.136841
-            INSERTEVENT: future time will be 581.748535
-          START TIMER: starting timer at 579.136841
-            INSERTEVENT: time is 579.136841
-            INSERTEVENT: future time will be 595.136841
+            INSERTEVENT: time is 162.817963
+            INSERTEVENT: future time will be 163.946991
 
-EVENT time: 581.748535,  type: 2, fromlayer3  entity: 1
+EVENT time: 163.946991,  type: 2, fromlayer3  entity: 1
 ----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: seq: 1, ack 5, check: 966 00000000000000000000
+          TOLAYER3: seq: 1, ack 2, check: 963 00000000000000000000
           TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 581.748535
-            INSERTEVENT: future time will be 587.784668
+            INSERTEVENT: time is 163.946991
+            INSERTEVENT: future time will be 170.077957
 
-EVENT time: 587.784668,  type: 2, fromlayer3  entity: 0
-----A: uncorrupted ACK 5 is received
-----A: ACK 5 is not a duplicate
+EVENT time: 170.077957,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 2 is received
+----A: ACK 2 is not a duplicate
 
-EVENT time: 595.136841,  type: 0, timerinterrupt   entity: 0
+EVENT time: 178.817963,  type: 0, timerinterrupt   entity: 0
 ----A: time out,resend packets!
+---A: resending packet 3
+          TOLAYER3: seq: 3, ack -1, check: 2002 dddddddddddddddddddd
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 178.817963
+            INSERTEVENT: future time will be 185.341522
+          START TIMER: starting timer at 178.817963
+            INSERTEVENT: time is 178.817963
+            INSERTEVENT: future time will be 194.817963
 ---A: resending packet 4
           TOLAYER3: packet being lost
-          START TIMER: starting timer at 595.136841
-            INSERTEVENT: time is 595.136841
-            INSERTEVENT: future time will be 611.136841
 
-EVENT time: 611.136841,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 4
-          TOLAYER3: packet being lost
-          START TIMER: starting timer at 611.136841
-            INSERTEVENT: time is 611.136841
-            INSERTEVENT: future time will be 627.136841
-
-EVENT time: 627.136841,  type: 0, timerinterrupt   entity: 0
-----A: time out,resend packets!
----A: resending packet 4
-          TOLAYER3: seq: 4, ack -1, check: 2023 eeeeeeeeeeeeeeeeeeee
-          TOLAYER3: scheduling arrival on other side
-            INSERTEVENT: time is 627.136841
-            INSERTEVENT: future time will be 635.040894
-          START TIMER: starting timer at 627.136841
-            INSERTEVENT: time is 627.136841
-            INSERTEVENT: future time will be 643.136841
-
-EVENT time: 635.040894,  type: 2, fromlayer3  entity: 1
+EVENT time: 185.341522,  type: 2, fromlayer3  entity: 1
 ----B: packet corrupted or not expected sequence number, resend ACK!
-          TOLAYER3: packet being lost
+          TOLAYER3: seq: 0, ack 2, check: 962 00000000000000000000
+          TOLAYER3: scheduling arrival on other side
+            INSERTEVENT: time is 185.341522
+            INSERTEVENT: future time will be 187.953217
 
-EVENT time: 643.136841,  type: 0, timerinterrupt   entity: 0
+EVENT time: 187.953217,  type: 2, fromlayer3  entity: 0
+----A: uncorrupted ACK 2 is received
+----A: ACK 2 is not a duplicate
+
+EVENT time: 194.817963,  type: 0, timerinterrupt   entity: 0
+----A: time out,resend packets!
+---A: packet 3 reached max retransmissions, marking as ACKED
+          START TIMER: starting timer at 194.817963
+            INSERTEVENT: time is 194.817963
+            INSERTEVENT: future time will be 210.817963
+
+EVENT time: 210.817963,  type: 0, timerinterrupt   entity: 0
 ----A: time out,resend packets!
 ---A: packet 4 reached max retransmissions, marking as ACKED
- Simulator terminated at time 643.136841
+ Simulator terminated at time 210.817963
  after attempting to send 10 msgs from layer5
 number of messages dropped due to full window:  4 
-number of valid (not corrupt or duplicate) acknowledgements received at A:  3 
+number of valid (not corrupt or duplicate) acknowledgements received at A:  4 
 (note: a single acknowledgement may have acknowledged more than one packet - if cumulative acknowledgements are used)
-number of packet resends by A:  36 
+number of packet resends by A:  33 
 number of correct packets received at B:  6 
 number of messages delivered to application:  6 
