@@ -81,7 +81,9 @@ static int seq_to_index(int seqnum)
 /* Helper function to check if seqnum is in send window */
 static bool in_send_window(int seqnum)
 {
-    int window_end = (send_base + WINDOWSIZE - 1) % SEQSPACE;
+    int window_end;
+
+    window_end = (send_base + WINDOWSIZE - 1) % SEQSPACE;
     
     if (send_base <= window_end) {
         /* Normal case: window doesn't wrap around */
@@ -262,11 +264,13 @@ static int B_nextseqnum;                       /* sequence number for ACK packet
 /* Helper function to check if seqnum is in receive window */
 static bool in_recv_window(int seqnum)
 {
+    int window_end;
+
     /* For the receiver, we also need to acknowledge packets right before the window */ 
     if (seqnum == ((recv_base - 1 + SEQSPACE) % SEQSPACE))
         return false;
 
-    int window_end = (recv_base + WINDOWSIZE - 1) % SEQSPACE;
+    window_end = (recv_base + WINDOWSIZE - 1) % SEQSPACE;
     
     if (recv_base <= window_end) {
         /* Normal case: window doesn't wrap around */
