@@ -24,7 +24,7 @@
 #define WINDOWSIZE 6    /* the maximum number of buffered unacked packet */
 #define SEQSPACE 12     /* the min sequence space for SR must be at least 2*WINDOWSIZE */
 #define NOTINUSE (-1)   /* used to fill header fields that are not being used */
-
+#define MAX_RETRANSMIT 15  /* Maximum retransmissions per packet before giving up */
 
 /* generic procedure to compute the checksum of a packet.  Used by both sender and receiver  
    the simulator will overwrite part of your packet with 'z's.  It will not overwrite your 
@@ -35,6 +35,7 @@
 /* Array to track retransmission counts for each packet in the window */ 
 static int retransmission_count[WINDOWSIZE] = {0};
 static int last_ack_sent = -1;  /* Last ACK number that was sent by receiver */
+static int timer_seq = 0;       /* Track which packet the timer is set for */
 
 int ComputeChecksum(struct pkt packet)
 {
@@ -94,12 +95,34 @@ static bool in_send_window(int seqnum)
     }
 }
 
+/* Called to mark a packet as delivered if it's been retransmitted too many times */
+static void advance_window_if_needed()
+{
+  /* If the base packet has been retransmitted too many times, mark it as delivered and advance window */
+  while (send_base != next_seqnum) {
+    int index = seq_to_index(send_base);
+    if (send_status[index] == SENT && retransmission_count[index] >= MAX_RETRANSMIT) {
+      if (TRACE > 0) {
+        printf("----A: Packet %d exceeded max retransmissions, marking as delivered\n", send_base);
+      }
+      send_status[index] = ACKED;
+      /* Continue the check by looking at next base */
+      send_base = (send_base + 1) % SEQSPACE;
+    } else {
+      break;
+    }
+  }
+}
+
 /* called from layer 5 (application layer), passed the message to be sent to other side */
 void A_output(struct msg message)
 {
   struct pkt sendpkt;
   int i;
   int index;
+
+  /* Check if we need to advance the window due to too many retransmissions */
+  advance_window_if_needed();
 
   /* check if we can send a new packet */
   if (in_send_window(next_seqnum)) {
@@ -127,6 +150,8 @@ void A_output(struct msg message)
     /* Start timer if this is the first packet in the window */
     if (send_base == next_seqnum) {
       starttimer(A, RTT);
+      /* Record the serial number corresponding to the timer */
+      timer_seq = send_base;
     }
 
     /* get next sequence number, wrap back to 0 */
@@ -146,7 +171,8 @@ void A_output(struct msg message)
 */
 void A_input(struct pkt packet)
 {
-  int index; /* Move declaration to the beginning */
+  int index;
+  bool need_restart_timer = false;
 
   /* if received ACK is not corrupted */ 
   if (!IsCorrupted(packet)) {
@@ -173,13 +199,20 @@ void A_input(struct pkt packet)
           if (TRACE > 0)
             printf("----A: ACK %d is not a duplicate\n",packet.acknum);
           new_ACKs++;
+
+          /* If we're acknowledging the packet that the timer is for, we'll need to restart the timer */
+          if (packet.acknum == timer_seq) {
+            need_restart_timer = true;
+          }
         } else {
           if (TRACE > 0)
             printf("----A: ACK %d is a duplicate (for packet before window)\n", packet.acknum);
         }
         
-        if (packet.acknum == send_base) {
-          stoptimer(A);
+        if (packet.acknum == send_base || need_restart_timer) {
+          if (need_restart_timer) {
+            stoptimer(A);
+          }
         
           /* Slide window over all consecutively ACKed packets */
           while (send_base != next_seqnum && 
@@ -190,9 +223,22 @@ void A_input(struct pkt packet)
             send_base = (send_base + 1) % SEQSPACE;
           }
 
+          /* Check again if we need to advance window due to max retransmissions */
+          advance_window_if_needed();
+
           /* If we need to restart the timer and there are unacked packets */
           if (send_base != next_seqnum) {
-            starttimer(A, RTT);
+            /* Find the first unacked packet */
+            int first_unacked = send_base;
+            while (first_unacked != next_seqnum && 
+                  send_status[seq_to_index(first_unacked)] == ACKED) {
+              first_unacked = (first_unacked + 1) % SEQSPACE;
+            }
+
+            if (first_unacked != next_seqnum) {
+              timer_seq = first_unacked;
+              starttimer(A, RTT);
+            }
           }
         }
       }
@@ -215,21 +261,55 @@ void A_input(struct pkt packet)
 /* called when A's timer goes off */
 void A_timerinterrupt(void)
 {
+  int index;
+  int curr_seq;
+  
   if (TRACE > 0)
     printf("----A: time out,resend packets!\n");
   
   /* Only process if there are unacked packets */
   if (send_base != next_seqnum) {
-    int index = seq_to_index(send_base);
+    curr_seq = send_base;
 
-    if (TRACE > 0)
-      printf("---A: resending packet %d\n", send_base);
-    
-    tolayer3(A, send_buffer[index]); 
-    packets_resent++;
-    retransmission_count[index]++;
-    
-    starttimer(A, RTT);
+    while (curr_seq != next_seqnum) {
+      index = seq_to_index(curr_seq);
+
+      if (send_status[index] == SENT) {
+        
+        /* Only retransmit if we haven't reached max retransmissions */
+        if (retransmission_count[index] < MAX_RETRANSMIT) {
+          if (TRACE > 0)
+            printf("---A: resending packet %d\n", curr_seq);
+          
+          tolayer3(A, send_buffer[index]); 
+          packets_resent++;
+          retransmission_count[index]++;
+        } else {
+          if (TRACE > 0)
+            printf("---A: packet %d has reached max retransmissions (%d)\n", curr_seq, retransmission_count[index]);
+
+          /* Mark as ACKed to allow window to advance */
+          send_status[index] = ACKED;
+        }
+      }
+
+      curr_seq = (curr_seq + 1) % SEQSPACE;
+    }
+
+    /* Slide window if needed after potential marking of packets */
+    while (send_base != next_seqnum && 
+           send_status[seq_to_index(send_base)] == ACKED) {
+      /* Mark slot as unused */
+      send_status[seq_to_index(send_base)] = UNUSED;
+      /* Slide window by one */
+      send_base = (send_base + 1) % SEQSPACE;
+    }
+
+    /* Reset timer if window is not empty */
+    if (send_base != next_seqnum) {
+      timer_seq = send_base;
+      starttimer(A, RTT);
+    }
   }
 }
 
@@ -240,15 +320,16 @@ void A_init(void)
 {
   int i;
     
-    /* Initialize sender state */
-    send_base = 0;
-    next_seqnum = 0;
-    
-    /* Initialize send buffer and status */
-    for (i = 0; i < WINDOWSIZE; i++) {
-      send_status[i] = UNUSED;
-      retransmission_count[i] = 0;  /* Initialize retransmission counters */
-    }
+  /* Initialize sender state */
+  send_base = 0;
+  next_seqnum = 0;
+  timer_seq = 0;
+  
+  /* Initialize send buffer and status */
+  for (i = 0; i < WINDOWSIZE; i++) {
+    send_status[i] = UNUSED;
+    retransmission_count[i] = 0;  /* Initialize retransmission counters */
+  }
 }
 
 
