@@ -47,40 +47,28 @@ run_test() {
 echo -e "\n--- Running Standard Test Cases ---"
 
 # Test 1: Basic functionality (no loss, no corruption)
-run_test "test1_basic" 3 0.0 0.0 0 10.0 1
+run_test "test1_basic" 3 0.0 0.0 0 10.0 0
 
 # Test 2: Another basic test (no loss, no corruption)
-run_test "test2_basic" 3 0.0 0.0 0 10.0 1
+run_test "test2_basic" 3 0.0 0.0 0 10.0 0
 
 # Test 3: ACK loss test (100% loss in A<-B direction)
-run_test "test3_ack_loss" 3 1.0 0.0 1 10.0 1
+run_test "test3_ack_loss" 3 1.0 0.0 1 10.0 0
 
 # Test 4: Data packet corruption test (100% corruption in A->B direction)
-run_test "test4_data_corruption" 3 0.0 1.0 0 10.0 1
+run_test "test4_data_corruption" 3 0.0 1.0 0 10.0 0
 
 # Test 5: Data packet loss test (100% loss in A->B direction)
-run_test "test5_data_loss" 3 1.0 0.0 0 10.0 1
+run_test "test5_data_loss" 3 1.0 0.0 0 10.0 0
 
 # Test 6: Mixed test (moderate loss and corruption in both directions)
-run_test "test6_mixed" 5 0.2 0.2 2 10.0 1
+run_test "test6_mixed" 5 0.2 0.2 2 10.0 0
 
 # Test 7: High load test (moderate loss and corruption)
-run_test "test7_high_load" 10 0.1 0.1 2 10.0 1
+run_test "test7_high_load" 10 0.1 0.1 2 10.0 0
 
 # Test 8: Window full test (high message rate)
-run_test "test8_window_full" 15 0.1 0.1 2 5.0 1
+run_test "test8_window_full" 15 0.1 0.1 2 5.0 0
 
-
-# # Test 3: ACK loss test (100% loss in A<-B direction)
-# run_test "test3_detail" 3 1.0 0.0 1 10.0 1
-
-# # Test 4: Data packet corruption test (100% corruption in A->B direction)
-# run_test "test4_detail" 3 0.0 1.0 0 10.0 1
-
-# # Test 5: Data packet loss test (100% loss in A->B direction)
-# run_test "test5_detail" 3 1.0 0.0 0 10.0 1
-
-# # Test 8: Window full test (high message rate)
-# run_test "test8_detail" 15 0.1 0.1 2 5.0 1
 
 echo -e "\n--- All tests completed! Results are in the test_results directory. ---"
