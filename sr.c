@@ -36,6 +36,7 @@
 static int retransmission_count[WINDOWSIZE] = {0};
 static int last_ack_sent = -1;  /* Last ACK number that was sent by receiver */
 static int timer_seq = 0;       /* Track which packet the timer is set for */
+static bool timer_running = false;
 
 int ComputeChecksum(struct pkt packet)
 {
@@ -58,6 +59,20 @@ bool IsCorrupted(struct pkt packet)
     return (true);
 }
 
+/* Helper functions for timer management */ 
+static void safe_start_timer(int entity, float increment) {
+    if (!timer_running) {
+        starttimer(entity, increment);
+        timer_running = true;
+    }
+}
+
+static void safe_stop_timer(int entity) {
+    if (timer_running) {
+        stoptimer(entity);
+        timer_running = false;
+    }
+}
 
 /********* Sender (A) variables and functions ************/
 
@@ -149,7 +164,7 @@ void A_output(struct msg message)
     
     /* Start timer if this is the first packet in the window */
     if (send_base == next_seqnum) {
-      starttimer(A, RTT);
+      safe_start_timer(A, RTT);
       /* Record the serial number corresponding to the timer */
       timer_seq = send_base;
     }
@@ -200,7 +215,7 @@ void A_input(struct pkt packet)
           /* If we're acknowledging the packet that the timer is for, we'll need to restart the timer */
           if (packet.acknum == timer_seq) {
             need_restart_timer = true;
-            stoptimer(A);
+            safe_stop_timer(A);
           }
         } else {
           /* ACK for packet right before window */
@@ -234,7 +249,7 @@ void A_input(struct pkt packet)
 
               if (first_unacked != next_seqnum) {
                 timer_seq = first_unacked;
-                starttimer(A, RTT);
+                safe_start_timer(A, RTT);
               }
             }
           }
@@ -262,6 +277,8 @@ void A_timerinterrupt(void)
   
   if (TRACE > 0)
     printf("----A: time out,resend packets!\n");
+
+  timer_running = false; /* Reset timer state */ 
   
   /* Only process if there are unacked packets */
   if (send_base != next_seqnum) {
@@ -278,16 +295,13 @@ void A_timerinterrupt(void)
         retransmission_count[index]++;
 
         /* Restart timer for this packet */
-        starttimer(A, RTT);
+        safe_start_timer(A, RTT);
       } else {
         if (TRACE > 0)
           printf("---A: packet %d has reached max retransmissions (%d)\n", timer_seq, retransmission_count[index]);
 
         /* Mark as ACKed to allow window to advance */
         send_status[index] = ACKED;
-
-        /* Stop timer as this packet is done */
-        stoptimer(A);
 
         /* Slide window over all consecutively ACKed packets */
         while (send_base != next_seqnum && 
@@ -309,14 +323,11 @@ void A_timerinterrupt(void)
           
           if (first_unacked != next_seqnum) {
             timer_seq = first_unacked;
-            starttimer(A, RTT);
+            safe_start_timer(A, RTT);
           }
         }
       }
     } else {
-      /* The timed packet has been ACKed but timer wasn't stopped */
-      stoptimer(A);
-      
       /* Find next unacked packet to time */
       if (send_base != next_seqnum) {
         int first_unacked = send_base;
@@ -327,7 +338,7 @@ void A_timerinterrupt(void)
         
         if (first_unacked != next_seqnum) {
           timer_seq = first_unacked;
-          starttimer(A, RTT);
+          safe_start_timer(A, RTT);
         }
       }
     }
@@ -345,6 +356,7 @@ void A_init(void)
   send_base = 0;
   next_seqnum = 0;
   timer_seq = 0;
+  timer_running = false;
   
   /* Initialize send buffer and status */
   for (i = 0; i < WINDOWSIZE; i++) {

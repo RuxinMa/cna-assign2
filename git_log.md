@@ -1,5 +1,17 @@
 # Git log 
 
+### commit b4edc84d6ef9eb15f5879f2c13dbaed9f724aab9
+Author: RuxinMa <alisonma0610@gmail.com>
+Date:   Sun Apr 27 21:47:49 2025 +0930
+
+    fix ACK processing logic, modify timer management to only time one pkt and add checks to prevent improper timer access
+
+commit 7552939fe467c3fd42e929a03eaa2bba18e02f8f
+Author: RuxinMa <alisonma0610@gmail.com>
+Date:   Sun Apr 27 18:03:02 2025 +0930
+
+    modify the MAX_RETRANSMIT val, update git log messages
+    
 ### commit c50dab348ab0d3684c4a9f544a4b38b8740314e9 
 Author: RuxinMa <alisonma0610@gmail.com>
 Date:   Sun Apr 27 17:18:21 2025 +0930

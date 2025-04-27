@@ -9,9 +9,7 @@ Trace level: 0
 
 -----  Stop and Wait Network Simulator Version 1.1 -------- 
 
-Enter the number of messages to simulate: Enter  packet loss probability [enter 0.0 for no loss]:Enter packet corruption probability [0.0 for no corruption]:If you want loss or corruption to only occur in one direction, choose the direction: 0 A->B, 1 A<-B, 2 A<->B (both directions) :Enter average time between messages from sender's layer5 [ > 0.0]:Enter TRACE:Warning: attempt to start a timer that is already started
-Warning: attempt to start a timer that is already started
- Simulator terminated at time 162.981628
+Enter the number of messages to simulate: Enter  packet loss probability [enter 0.0 for no loss]:Enter packet corruption probability [0.0 for no corruption]:If you want loss or corruption to only occur in one direction, choose the direction: 0 A->B, 1 A<-B, 2 A<->B (both directions) :Enter average time between messages from sender's layer5 [ > 0.0]:Enter TRACE: Simulator terminated at time 162.981628
  after attempting to send 5 msgs from layer5
 number of messages dropped due to full window:  0 
 number of valid (not corrupt or duplicate) acknowledgements received at A:  5 
