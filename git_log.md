@@ -1,5 +1,17 @@
 # Git log 
 
+### commit c50dab348ab0d3684c4a9f544a4b38b8740314e9 
+Author: RuxinMa <alisonma0610@gmail.com>
+Date:   Sun Apr 27 17:18:21 2025 +0930
+
+    resolve infinite loop and improve, add MAX_RETRANSMIT and function for window sliding
+
+### commit 6fb40e9f2a077da457b9b62a93cbb86a16f58894
+Author: RuxinMa <alisonma0610@gmail.com>
+Date:   Fri Apr 25 16:03:38 2025 +0930
+
+    rollback to commit 1fa5c8539a3c857aafcd16ea9e8cee1180fecd1a,  reverting to previous stable implementation, resolve mixed declarations
+
 ### commit 0f48b5cfecde625498acfc65542f453c9045b77d
 Author: RuxinMa <alisonma0610@gmail.com>
 Date:   Thu Apr 24 01:41:49 2025 +0930

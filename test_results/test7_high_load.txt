@@ -19,130 +19,53 @@ Sending packet 4 to layer 3
           TOLAYER3: packet being lost
 ----A: time out,resend packets!
 ---A: resending packet 1
----A: resending packet 2
----A: resending packet 3
-          TOLAYER3: packet being lost
----A: resending packet 4
 ----A: uncorrupted ACK 1 is received
 ----A: ACK 1 is not a duplicate
+          TOLAYER3: packet being lost
 ----A: uncorrupted ACK 2 is received
 ----A: ACK 2 is not a duplicate
 Sending packet 5 to layer 3
-----A: uncorrupted ACK 3 is received
-----A: ACK 3 is not a duplicate
-----A: uncorrupted ACK 3 is received
-----A: ACK 3 is a duplicate (for packet before window)
-----A: uncorrupted ACK 3 is received
-----A: ACK 3 is a duplicate (for packet before window)
-Sending packet 6 to layer 3
-          TOLAYER3: packet being corrupted
-          TOLAYER3: packet being corrupted
-----A: time out,resend packets!
----A: resending packet 4
----A: resending packet 5
           TOLAYER3: packet being lost
----A: resending packet 6
-          TOLAYER3: packet being corrupted
-----A: corrupted ACK is received, do nothing!
-Sending packet 7 to layer 3
 ----A: uncorrupted ACK 5 is received
 ----A: ACK 5 is not a duplicate
-----A: uncorrupted ACK 5 is received
-----A: ACK 5 is a duplicate
-----A: uncorrupted ACK 5 is received
-----A: ACK 5 is a duplicate
 ----A: time out,resend packets!
----A: resending packet 4
----A: resending packet 6
----A: resending packet 7
+---A: resending packet 3
+Sending packet 6 to layer 3
+          TOLAYER3: packet being corrupted
+Sending packet 7 to layer 3
+          TOLAYER3: packet being corrupted
+----A: uncorrupted ACK 3 is received
+----A: ACK 3 is not a duplicate
+          TOLAYER3: packet being corrupted
 Sending packet 8 to layer 3
           TOLAYER3: packet being corrupted
-          TOLAYER3: packet being lost
-----A: uncorrupted ACK 5 is received
-----A: ACK 5 is a duplicate
-----A: uncorrupted ACK 7 is received
-----A: ACK 7 is not a duplicate
-----A: time out,resend packets!
----A: resending packet 4
----A: resending packet 6
-          TOLAYER3: packet being corrupted
----A: resending packet 8
-Sending packet 9 to layer 3
-          TOLAYER3: packet being corrupted
-----A: uncorrupted ACK 6 is received
-----A: ACK 6 is not a duplicate
 ----A: corrupted ACK is received, do nothing!
-----A: uncorrupted ACK 7 is received
-----A: ACK 7 is a duplicate
+          TOLAYER3: packet being lost
           TOLAYER3: packet being lost
 ----A: time out,resend packets!
 ---A: resending packet 4
-          TOLAYER3: packet being corrupted
----A: resending packet 8
----A: resending packet 9
-----A: time out,resend packets!
----A: resending packet 4
----A: resending packet 8
----A: resending packet 9
-          TOLAYER3: packet being lost
-----A: uncorrupted ACK 7 is received
-----A: ACK 7 is a duplicate
-----A: uncorrupted ACK 8 is received
-----A: ACK 8 is not a duplicate
+Sending packet 9 to layer 3
+----A: uncorrupted ACK 4 is received
+----A: ACK 4 is not a duplicate
 ----A: uncorrupted ACK 9 is received
 ----A: ACK 9 is not a duplicate
 ----A: time out,resend packets!
----A: resending packet 4
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
-          TOLAYER3: packet being lost
+---A: resending packet 6
+----A: uncorrupted ACK 6 is received
+----A: ACK 6 is not a duplicate
 ----A: time out,resend packets!
----A: resending packet 4
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
+---A: resending packet 7
+----A: uncorrupted ACK 7 is received
+----A: ACK 7 is not a duplicate
 ----A: time out,resend packets!
----A: resending packet 4
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
-----A: time out,resend packets!
----A: resending packet 4
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
-----A: time out,resend packets!
----A: resending packet 4
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
-----A: time out,resend packets!
----A: resending packet 4
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
-----A: time out,resend packets!
----A: resending packet 4
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
-----A: time out,resend packets!
----A: resending packet 4
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
-----A: time out,resend packets!
----A: resending packet 4
-----A: uncorrupted ACK 9 is received
-----A: ACK 9 is a duplicate
-----A: time out,resend packets!
----A: packet 4 has reached max retransmissions (15)
- Simulator terminated at time 292.912354
+---A: resending packet 8
+----A: uncorrupted ACK 8 is received
+----A: ACK 8 is not a duplicate
+ Simulator terminated at time 186.261078
  after attempting to send 10 msgs from layer5
 number of messages dropped due to full window:  0 
-number of valid (not corrupt or duplicate) acknowledgements received at A:  9 
+number of valid (not corrupt or duplicate) acknowledgements received at A:  10 
 (note: a single acknowledgement may have acknowledged more than one packet - if cumulative acknowledgements are used)
-number of packet resends by A:  28 
-number of correct packets received at B:  29 
+number of packet resends by A:  6 
+number of correct packets received at B:  12 
 number of messages delivered to application:  10 

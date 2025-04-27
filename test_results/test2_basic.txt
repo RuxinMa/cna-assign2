@@ -16,20 +16,17 @@ Sending packet 1 to layer 3
 Sending packet 2 to layer 3
 ----A: time out,resend packets!
 ---A: resending packet 1
----A: resending packet 2
 ----A: uncorrupted ACK 1 is received
 ----A: ACK 1 is not a duplicate
 ----A: uncorrupted ACK 2 is received
 ----A: ACK 2 is not a duplicate
 ----A: uncorrupted ACK 2 is received
 ----A: ACK 2 is a duplicate (for packet before window)
-----A: uncorrupted ACK 2 is received
-----A: ACK 2 is a duplicate (for packet before window)
- Simulator terminated at time 65.435219
+ Simulator terminated at time 56.220928
  after attempting to send 3 msgs from layer5
 number of messages dropped due to full window:  0 
 number of valid (not corrupt or duplicate) acknowledgements received at A:  3 
 (note: a single acknowledgement may have acknowledged more than one packet - if cumulative acknowledgements are used)
-number of packet resends by A:  2 
-number of correct packets received at B:  5 
+number of packet resends by A:  1 
+number of correct packets received at B:  4 
 number of messages delivered to application:  3 
