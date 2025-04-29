@@ -215,11 +215,9 @@ void A_input(struct pkt packet)
           printf("----A: ACK %d is not a duplicate\n",packet.acknum);
         new_ACKs++;
 
-        /* If we're acknowledging the packet that the timer is for, we'll need to restart the timer */
-        if (packet.acknum == timer_seq) {
-          need_restart_timer = true;
-          safe_stop_timer(A);
-        }
+        /* Always stop the timer when receiving a valid ACK */
+        safe_stop_timer(A);
+        need_restart_timer = true;
       } else {
         /* ACK for already acknowledged packet */
         if (TRACE > 0)
@@ -239,12 +237,21 @@ void A_input(struct pkt packet)
       advance_window_if_needed();
 
       /* If we need to restart the timer and there are unacked packets */
-      if  (need_restart_timer && send_base != next_seqnum) {
-        /* Find the first unacked packet starting from send_base */
+      if (need_restart_timer && send_base != next_seqnum) {
+        /* Find the first unacked packet */
         int first_unacked = send_base;
-
-        timer_seq = first_unacked;
-        safe_start_timer(A, RTT);
+        while (first_unacked != next_seqnum) {
+            if (send_status[seq_to_index(first_unacked)] == SENT) {
+                break;
+            }
+            first_unacked = (first_unacked + 1) % SEQSPACE;
+        }
+        
+        if (first_unacked != next_seqnum) {
+            /* Set timer for the first unacked packet */
+            timer_seq = first_unacked;
+            safe_start_timer(A, RTT);
+        }
       }
     }
     else {
@@ -425,8 +432,7 @@ void B_input(struct pkt packet)
         if (TRACE > 1)
             printf("----B: packet %d is correctly received, send ACK!\n", packet.seqnum);
         
-          /* Send ACK for this packet since it's a duplicate of the last packet we delivered */
-
+        /* Send ACK for this packet since it's a duplicate of the last packet we delivered */
         sendpkt.acknum = packet.seqnum;
         last_ack_sent = packet.seqnum;
       } else {
@@ -446,7 +452,6 @@ void B_input(struct pkt packet)
         printf("----B: packet %d is correctly received, send ACK!\n", packet.seqnum);
 
       index = recv_seq_to_index(packet.seqnum);
-
 
       /* If we haven't received this packet before */
       if (!recv_status[index]) {
