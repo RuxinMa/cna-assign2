@@ -15,5 +15,5 @@ number of messages dropped due to full window:  0
 number of valid (not corrupt or duplicate) acknowledgements received at A:  5 
 (note: a single acknowledgement may have acknowledged more than one packet - if cumulative acknowledgements are used)
 number of packet resends by A:  8 
-number of correct packets received at B:  5 
+number of correct packets received at B:  6 
 number of messages delivered to application:  5 

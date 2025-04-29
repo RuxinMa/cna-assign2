@@ -11,7 +11,6 @@ Trace level: 1
 
 Enter the number of messages to simulate: Enter  packet loss probability [enter 0.0 for no loss]:Enter packet corruption probability [0.0 for no corruption]:If you want loss or corruption to only occur in one direction, choose the direction: 0 A->B, 1 A<-B, 2 A<->B (both directions) :Enter average time between messages from sender's layer5 [ > 0.0]:Enter TRACE:Sending packet 0 to layer 3
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 Sending packet 1 to layer 3
@@ -19,189 +18,157 @@ Sending packet 1 to layer 3
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 Sending packet 2 to layer 3
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
-----B: packet corrupted, resend ACK!
-----A: uncorrupted ACK 11 is received
-----A: ACK 11 is a duplicate (for packet before window)
-----A: time out,resend packets!
----A: resending packet 0
-          TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
-----A: time out,resend packets!
----A: resending packet 0
-          TOLAYER3: packet being corrupted
-----A: uncorrupted ACK 11 is received
-----A: ACK 11 is a duplicate (for packet before window)
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
-----A: uncorrupted ACK 11 is received
-----A: ACK 11 is a duplicate (for packet before window)
-----A: time out,resend packets!
----A: resending packet 0
-          TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
-----A: uncorrupted ACK 11 is received
-----A: ACK 11 is a duplicate (for packet before window)
-----A: time out,resend packets!
----A: resending packet 0
-          TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
-----A: uncorrupted ACK 11 is received
-----A: ACK 11 is a duplicate (for packet before window)
-----A: time out,resend packets!
----A: resending packet 0
-          TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
+----A: time out,resend packets!
+---A: resending packet 0
+          TOLAYER3: packet being corrupted
+----A: uncorrupted ACK 11 is received
+----A: ACK 11 is a duplicate (for packet before window)
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
 ---A: resending packet 0
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
+----A: uncorrupted ACK 11 is received
+----A: ACK 11 is a duplicate (for packet before window)
+----A: time out,resend packets!
+---A: resending packet 0
+          TOLAYER3: packet being corrupted
+----A: uncorrupted ACK 11 is received
+----A: ACK 11 is a duplicate (for packet before window)
+----A: time out,resend packets!
+---A: resending packet 0
+          TOLAYER3: packet being corrupted
+----A: uncorrupted ACK 11 is received
+----A: ACK 11 is a duplicate (for packet before window)
+----A: time out,resend packets!
+---A: resending packet 0
+          TOLAYER3: packet being corrupted
+----A: uncorrupted ACK 11 is received
+----A: ACK 11 is a duplicate (for packet before window)
+----A: time out,resend packets!
+---A: resending packet 0
+          TOLAYER3: packet being corrupted
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 is a duplicate (for packet before window)
 ----A: time out,resend packets!
@@ -209,23 +176,19 @@ Sending packet 2 to layer 3
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: uncorrupted ACK 11 is received
@@ -233,125 +196,104 @@ Sending packet 2 to layer 3
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: uncorrupted ACK 11 is received
@@ -359,31 +301,26 @@ Sending packet 2 to layer 3
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 1
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
@@ -391,181 +328,151 @@ Sending packet 2 to layer 3
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
 ---A: resending packet 2
           TOLAYER3: packet being corrupted
-----B: packet corrupted, resend ACK!
 ----A: uncorrupted ACK 11 is received
 ----A: ACK 11 outside window, do nothing!
 ----A: time out,resend packets!
